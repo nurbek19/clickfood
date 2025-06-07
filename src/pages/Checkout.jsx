@@ -33,15 +33,17 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
             return;
         }
 
+        const foods = cartItems.map((item) => ({ food_id: item._id, count: item.quantity }));
+
         const orderData = {
-            foods: cartItems,
+            foods,
             // total,
             address,
             phone,
             comment,
             delivery_option: deliveryType,
-            user_id: searchParams.get('chat_id'),
-            partner_id: searchParams.get('partner_id')
+            user_id: parseInt(searchParams.get('chat_id')),
+            partner_id: parseInt(searchParams.get('partner_id'))
         };
 
         console.log("Заказ отправлен:", orderData);
