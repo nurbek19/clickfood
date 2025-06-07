@@ -30,7 +30,7 @@ export const CreatePartner = () => {
         };
 
         loadPartner();
-    }, [chat_id]);
+    }, []);
 
     if (loading) return <p>Загрузка...</p>;
 
