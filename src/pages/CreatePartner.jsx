@@ -57,7 +57,7 @@ export const CreatePartner = () => {
         return () => {
             WebApp.offEvent('mainButtonClicked', sendData);
         };
-    }, [name, address, phone, sendData]);
+    }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, photoId]);
 
 
     const onDrop = useCallback(async (acceptedFiles) => {
