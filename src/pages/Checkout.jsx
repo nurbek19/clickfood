@@ -60,7 +60,7 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
         }).catch((err) => {
             console.log(err);
             WebApp.MainButton.hideProgress();
-            WebApp.MainButton.text = 'Произашла какая то ошибка';
+            WebApp.MainButton.text = 'Произошло какая то ошибка';
         }) //переписать на try catch
 
         // Очистить корзину
