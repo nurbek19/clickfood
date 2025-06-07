@@ -18,6 +18,30 @@ export const CreatePartner = () => {
 
     const [photoId, setPhotoId] = useState('');
 
+    const sendData = useCallback(() => {
+        const delivery_options = [];
+
+        if (delivery) {
+            delivery_options.push({ option: 'delivery', price: parseInt(deliveryCost)})
+        }
+
+        if (selfDrive) {
+            delivery_options.push({ option: 'self_drive' });
+        }
+
+        if (preorder) {
+            delivery_options.push({ option: 'preorder' });
+        }
+
+        WebApp.sendData(JSON.stringify({
+            name,
+            address,
+            contact: phone,
+            delivery_options,
+            photo: photoId,
+        }));
+    }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, photoId])
+
 
     useEffect(() => {
         WebApp.MainButton.setText("Создать");
@@ -28,34 +52,12 @@ export const CreatePartner = () => {
             WebApp.MainButton.hide();
         }
 
-        WebApp.MainButton.onClick(() => {
-            const delivery_options = [];
-
-            if (delivery) {
-                delivery_options.push({ option: 'delivery', price: parseInt(deliveryCost)})
-            }
-
-            if (selfDrive) {
-                delivery_options.push({ option: 'self_drive' });
-            }
-
-            if (preorder) {
-                delivery_options.push({ option: 'preorder' });
-            }
-
-            WebApp.sendData(JSON.stringify({
-                name,
-                address,
-                contact: phone,
-                delivery_options,
-                photo: photoId,
-            }));
-        });
+        WebApp.onEvent('mainButtonClicked', sendData);
 
         return () => {
-            WebApp.MainButton.offClick();
+            WebApp.offEvent('mainButtonClicked', sendData);
         };
-    }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, photoId]);
+    }, [name, address, phone]);
 
 
     const onDrop = useCallback(async (acceptedFiles) => {
@@ -161,31 +163,6 @@ export const CreatePartner = () => {
                 <input {...getInputProps()} />
                 <p>Загрузить изображение</p>
             </div>
-
-
-            {/* <button onClick={() => {
-                const delivery_options = [];
-
-                if (delivery) {
-                    delivery_options.push({ option: 'delivery', price: parseInt(deliveryCost)})
-                }
-    
-                if (selfDrive) {
-                    delivery_options.push({ option: 'self_drive' });
-                }
-    
-                if (preorder) {
-                    delivery_options.push({ option: 'preorder' });
-                }
-
-                console.log('DATA', {
-                    name,
-                    address,
-                    contact: phone,
-                    delivery_options,
-                    photo: photoId,
-                });
-            }}>Click</button> */}
         </div>
     )
 }
