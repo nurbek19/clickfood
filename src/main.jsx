@@ -1,13 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import WebApp from '@twa-dev/sdk'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import WebApp from '@twa-dev/sdk';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import App from './App.jsx'
-import { CreatePartner } from './pages/CreatePartner.jsx'
-import { CreateMenu } from './pages/CreateMenu.jsx'
+import App from './App.jsx';
+import { CreatePartner } from './pages/CreatePartner.jsx';
+import { CreateMenu } from './pages/CreateMenu.jsx';
+import { OrderPage } from './pages/OrderPage.jsx';
 
-import './index.css'
+import './index.css';
 
 WebApp.ready();
 
@@ -25,14 +26,10 @@ const router = createBrowserRouter([
         path: "/clickfood/foods",
         element: <CreateMenu />,
       },
-      // {
-      //   path: "/clickfood/search",
-      //   element: <UserSearchPage />,
-      // },
-      // {
-      //   path: "/clickfood/partner",
-      //   element: <PartnerPage />
-      // }
+      {
+        path: "/clickfood/order",
+        element: <OrderPage />,
+      },
     ],
   },
 ]);

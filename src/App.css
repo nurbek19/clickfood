@@ -144,3 +144,75 @@
   .switch-buttons .switch {
     padding-bottom: 10px;
   }
+
+
+
+  /* OrderPage.css */
+.order-page {
+    padding: 16px;
+}
+.dish-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.dish-card {
+    border: 1px solid #ddd;
+    padding: 8px;
+    width: 150px;
+    text-align: center;
+}
+.order-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.checkout-page {
+    padding: 16px;
+}
+.back-button {
+    margin-bottom: 12px;
+}
+.checkout-list {
+    margin-bottom: 20px;
+}
+.checkout-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.text-field, .text-area {
+    padding: 8px;
+    width: 100%;
+}
+.total-wrapper {
+    text-align: center;
+}
+.button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.counter button {
+  width: 30px;
+  height: 30px;
+}
+
+.dish-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+}
