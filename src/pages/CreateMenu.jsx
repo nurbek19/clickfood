@@ -45,7 +45,7 @@ export const CreateMenu = () => {
         const newDish = {
             name: form.name,
             price: parseInt(form.price),
-            weight: form.weight,
+            weight: parseInt(form.weight),
             category: categoryToUse,
             active: form.active,
             photo: form.photo,
