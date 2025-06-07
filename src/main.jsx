@@ -4,6 +4,7 @@ import WebApp from '@twa-dev/sdk'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import App from './App.jsx'
+import { CreatePartner } from './pages/CreatePartner.jsx'
 
 import './index.css'
 
@@ -15,10 +16,10 @@ const router = createBrowserRouter([
     path: "/clickfood/",
     element: <App />,
     children: [
-      // {
-      //   path: "/clickfood/",
-      //   element: <CreateAdvertisement />,
-      // },
+      {
+        path: "/clickfood/",
+        element: <CreatePartner />,
+      },
       // {
       //   path: "/clickfood/my-tours",
       //   element: <OwnerAdvertisementsList />,
