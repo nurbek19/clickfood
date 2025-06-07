@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { api } from "../api";
 
 import { PartnerForm } from "./PartnerForm"
 
 export const CreatePartner = () => {
-    const { chat_id } = useParams();
+    const [searchParams] = useSearchParams();
     const [loading, setLoading] = useState(true);
     const [existingPartner, setExistingPartner] = useState(null);
 
@@ -13,7 +13,7 @@ export const CreatePartner = () => {
     useEffect(() => {
         const loadPartner = async () => {
             try {
-                const res = await api.get(`/partner?chat_id=${chat_id}`);
+                const res = await api.get(`/partner?chat_id=${searchParams.get('chat_id')}`);
                 setExistingPartner(res.data);
             } catch (error) {
                 const status = error.response?.status;
