@@ -6,6 +6,7 @@ import "../App.css";
 export const Order = ({ cartItems, setCartItems, onCheckout }) => {
     const [searchParams] = useSearchParams();
     const [dishes, setDishes] = useState([]);
+    const [partner, setPartner] = useState(null);
 
     useEffect(() => {
         const fetchDishes = async () => {
@@ -17,6 +18,18 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
             }
         };
         fetchDishes();
+    }, []);
+
+    useEffect(() => {
+        const fetchPartner = async () => {
+            try {
+                const res = await api.get(`/partner?chat_id=${searchParams.get('partner_id')}`);
+                setPartner(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchPartner();
     }, []);
 
     const updateCart = (dish, quantity) => {
@@ -47,7 +60,12 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
 
     return (
         <div className="order-page">
-            <h2>Меню</h2>
+            {partner && (
+                <h2>{partner.name}</h2>
+            )}
+
+            <h4>Меню</h4>
+
             <div className="dish-list">
                 {dishes.map(dish => {
                     const qty = getQuantity(dish._id);

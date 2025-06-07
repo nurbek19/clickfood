@@ -149,18 +149,21 @@
 
   /* OrderPage.css */
 .order-page {
-    padding: 16px;
+    /* padding: 16px; */
 }
 .dish-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    justify-content: space-between;
+    /* gap: 12px; */
 }
 .dish-card {
     border: 1px solid #ddd;
     padding: 8px;
-    width: 150px;
+    /* width: 150px; */
+    width: 48%;
     text-align: center;
+    box-sizing: border-box;
 }
 .order-footer {
     margin-top: 20px;
