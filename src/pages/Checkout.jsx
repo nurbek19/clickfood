@@ -50,7 +50,7 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
         // TODO: Отправить на сервер здесь при необходимости
 
         WebApp.MainButton.showProgress();
-        api.post('/payment', orderData).then((res) => {
+        api.post('/order', orderData).then((res) => {
             if (res.data) {
                 WebApp.MainButton.hide();
                 // window.location.href = res.data.url;
@@ -76,7 +76,26 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
         return () => {
             WebApp.offEvent('mainButtonClicked', handleSubmit);
         };
-    }, []);
+    }, [cartItems, address, phone, comment, deliveryType]);
+
+    const isValid = useMemo(() => {
+        return cartItems.length && address && phone && deliveryType;
+    }, [cartItems, address, phone, deliveryType]);
+
+    useEffect(() => {
+        WebApp.MainButton.text = 'Оплатить';
+
+        if (isValid) {
+            WebApp.MainButton.show();
+
+        } else {
+            WebApp.MainButton.hide();
+        }
+
+        // return () => {
+        //     WebApp.MainButton.hide();
+        // };
+    }, [isValid]);
 
     return (
         <div className="checkout-page">
