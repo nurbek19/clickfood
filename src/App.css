@@ -91,7 +91,7 @@
     height: 22px;
 
     position: relative;
-    background-color: var(--tg-theme-bg-color);
+    background-color: var(--tg-theme-secondary-bg-color);
     /* background-color: #ccc; */
     -webkit-transition: .4s;
     transition: .4s;
