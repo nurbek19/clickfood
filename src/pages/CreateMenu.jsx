@@ -1,145 +1,237 @@
-import { useState, useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { useCallback, useEffect, useState } from "react";
+import WebApp from "@twa-dev/sdk";
 import { api } from "../api";
+import { useDropzone } from "react-dropzone";
 
-export const CreateMenu = ({ partnerId }) => {
-  const [dishes, setDishes] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [form, setForm] = useState({
-    name: '',
-    price: '',
-    weight: '',
-    category: '',
-    photo: '',
-    active: true,
-  });
+export const CreateMenu = () => {
+    const [form, setForm] = useState({
+        name: "",
+        price: "",
+        weight: "",
+        category: "",
+        active: true,
+        photo: "",
+    });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
+    const [dishes, setDishes] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [isAddingCategory, setIsAddingCategory] = useState(false);
+    const [newCategory, setNewCategory] = useState("");
 
-  const handleAddDish = async () => {
-    const newDish = {
-      ...form,
-      price: parseFloat(form.price),
-      weight: parseFloat(form.weight),
-      partner_id: partnerId,
+    const handleCategorySelect = (e) => {
+        const value = e.target.value;
+        if (value === "__new__") {
+            setIsAddingCategory(true);
+            setForm((prev) => ({ ...prev, category: "" }));
+        } else {
+            setIsAddingCategory(false);
+            setForm((prev) => ({ ...prev, category: value }));
+        }
     };
 
-    try {
-      await api.post("/dishes", newDish);
-      setDishes([...dishes, newDish]);
+    const handleAddDish = () => {
+        const categoryToUse =
+            dishes.length === 0
+                ? newCategory.trim()
+                : isAddingCategory
+                    ? newCategory.trim()
+                    : form.category;
 
-      // добавляем категорию в список, если она новая
-      if (form.category && !categories.includes(form.category)) {
-        setCategories([...categories, form.category]);
-      }
+        if (!form.name || !form.price || !form.weight || !categoryToUse || !form.photo) {
+            alert("Заполните все поля");
+            return;
+        }
 
-      // сброс формы
-      setForm({
-        name: '',
-        price: '',
-        weight: '',
-        category: '',
-        photo: '',
-        active: true,
-      });
-    } catch (err) {
-      console.error("Ошибка при добавлении блюда:", err);
-    }
-  };
+        const newDish = {
+            name: form.name,
+            price: parseInt(form.price),
+            weight: form.weight,
+            category: categoryToUse,
+            active: form.active,
+            photo: form.photo,
+        };
 
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    const formData = new FormData();
-    formData.append("photo", file);
+        setDishes((prev) => [...prev, newDish]);
 
-    try {
-      const response = await api.post("/photo/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+        if (!categories.includes(categoryToUse)) {
+            setCategories((prev) => [...prev, categoryToUse]);
+        }
 
-      if (response.data?.id) {
-        setForm((prev) => ({ ...prev, photo: response.data.id }));
-      }
-    } catch (err) {
-      console.error("Ошибка загрузки фото:", err);
-    }
-  }, []);
+        // Очистить форму
+        setForm({
+            name: "",
+            price: "",
+            weight: "",
+            category: "",
+            active: true,
+            photo: "",
+        });
+        setNewCategory("");
+        setIsAddingCategory(false);
+    };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: { "image/*": [] },
-    maxFiles: 1,
-    onDrop,
-  });
+    const handleDeleteDish = (index) => {
+        setDishes((prev) => prev.filter((_, i) => i !== index));
+    };
 
-  return (
-    <div style={{ padding: "20px", maxWidth: "600px" }}>
-      <h2>Добавить блюдо</h2>
+    const onDrop = useCallback(
+        async (acceptedFiles) => {
+            const file = acceptedFiles[0];
+            const formData = new FormData();
+            formData.append("photo", file);
 
-      <div className="field-wrapper">
-        <label>Название</label>
-        <input name="name" value={form.name} onChange={handleChange} className="text-field" />
-      </div>
+            try {
+                const response = await api.post("/photo/upload", formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
 
-      <div className="field-wrapper">
-        <label>Цена</label>
-        <input name="price" value={form.price} onChange={handleChange} className="text-field" type="number" />
-      </div>
+                if (response.data?.id) {
+                    setForm((prev) => ({ ...prev, photo: response.data.id }));
+                }
+            } catch (error) {
+                console.error("Upload error:", error);
+            }
+        },
+        []
+    );
 
-      <div className="field-wrapper">
-        <label>Вес (г)</label>
-        <input name="weight" value={form.weight} onChange={handleChange} className="text-field" type="number" />
-      </div>
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: { "image/*": [] },
+        maxFiles: 1,
+        onDrop,
+    });
 
-      <div className="field-wrapper">
-        <label>Категория</label>
-        {categories.length > 0 ? (
-          <select name="category" value={form.category} onChange={handleChange}>
-            <option value="">Выбрать категорию</option>
-            {categories.map((cat, idx) => (
-              <option key={idx} value={cat}>{cat}</option>
-            ))}
-            <option value="_new">Добавить новую...</option>
-          </select>
-        ) : (
-          <input name="category" value={form.category} onChange={handleChange} className="text-field" />
-        )}
-        {/* если выбрали "добавить новую" — показываем input */}
-        {form.category === "_new" && (
-          <input
-            placeholder="Введите новую категорию"
-            onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
-          />
-        )}
-      </div>
+    const sendData = useCallback(() => {
+        WebApp.sendData(JSON.stringify(dishes));
+    }, [dishes]);
 
-      <div className="field-wrapper">
-        <label>Активно</label>
-        <input name="active" type="checkbox" checked={form.active} onChange={handleChange} />
-      </div>
+    useEffect(() => {
+        WebApp.MainButton.setText("Сохранить блюда");
 
-      <div {...getRootProps()} style={{ border: "1px dashed gray", padding: "10px", marginBottom: "10px" }}>
-        <input {...getInputProps()} />
-        <p>{form.photo ? "Фото загружено" : "Загрузить фото"}</p>
-      </div>
+        if (dishes.length > 0) {
+            WebApp.MainButton.show();
+        } else {
+            WebApp.MainButton.hide();
+        }
 
-      <button onClick={handleAddDish}>Добавить блюдо</button>
+        WebApp.onEvent("mainButtonClicked", sendData);
+        return () => {
+            WebApp.offEvent("mainButtonClicked", sendData);
+        };
+    }, [dishes]);
 
-      {dishes.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Добавленные блюда:</h3>
-          <ul>
-            {dishes.map((dish, i) => (
-              <li key={i}>{dish.name} — {dish.category} — {dish.price}₽</li>
-            ))}
-          </ul>
+    return (
+        <div>
+            <h3>Добавить блюдо</h3>
+
+            <div className="field-wrapper">
+                <label className="field-label">Название</label>
+                <input
+                    type="text"
+                    value={form.name}
+                    onChange={(e) =>
+                        setForm((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                    className="text-field"
+                />
+            </div>
+
+            <div className="field-wrapper">
+                <label className="field-label">Цена</label>
+                <input
+                    type="number"
+                    value={form.price}
+                    onChange={(e) =>
+                        setForm((prev) => ({ ...prev, price: e.target.value }))
+                    }
+                    className="text-field"
+                />
+            </div>
+
+            <div className="field-wrapper">
+                <label className="field-label">Вес / объем (например, 250 г)</label>
+                <input
+                    type="text"
+                    value={form.weight}
+                    onChange={(e) =>
+                        setForm((prev) => ({ ...prev, weight: e.target.value }))
+                    }
+                    className="text-field"
+                />
+            </div>
+
+            <div className="field-wrapper">
+                {dishes.length > 0 ? (
+                    <>
+                        <select
+                            value={isAddingCategory ? "__new__" : form.category}
+                            onChange={handleCategorySelect}
+                            className="text-field"
+                            style={{ width: "100%", marginBottom: isAddingCategory ? "8px" : "0" }}
+                        >
+                            <option value="">Выбрать категорию</option>
+                            {categories.map((cat, i) => (
+                                <option key={i} value={cat}>
+                                    {cat}
+                                </option>
+                            ))}
+                            <option value="__new__">Добавить новую категорию</option>
+                        </select>
+
+                        {isAddingCategory && (
+                            <input
+                                type="text"
+                                placeholder="Новая категория"
+                                value={newCategory}
+                                onChange={(e) => setNewCategory(e.target.value)}
+                                className="text-field"
+                                style={{ width: "100%" }}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <input
+                        type="text"
+                        placeholder="Категория"
+                        value={newCategory}
+                        onChange={(e) => setNewCategory(e.target.value)}
+                        className="text-field"
+                        style={{ width: "100%" }}
+                    />
+                )}
+            </div>
+
+            <div className="field-wrapper">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={form.active}
+                        onChange={(e) =>
+                            setForm((prev) => ({ ...prev, active: e.target.checked }))
+                        }
+                    />
+                    Активное блюдо
+                </label>
+            </div>
+
+            <div className="field-wrapper" {...getRootProps()}>
+                <input {...getInputProps()} />
+                <p>Загрузить фото блюда</p>
+            </div>
+
+            <button onClick={handleAddDish} className="button">
+                Добавить блюдо
+            </button>
+
+            <div className="dishes-list">
+                <h4>Список блюд</h4>
+                {dishes.map((dish, index) => (
+                    <div key={index} className="dish-item">
+                        <strong>{dish.name}</strong> – {dish.price} сом – {dish.category}
+                        <button onClick={() => handleDeleteDish(index)}>Удалить</button>
+                    </div>
+                ))}
+            </div>
         </div>
-      )}
-    </div>
-  );
+    );
 };

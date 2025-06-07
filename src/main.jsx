@@ -22,7 +22,7 @@ const router = createBrowserRouter([
         element: <CreatePartner />,
       },
       {
-        path: "/clickfood/create-foods",
+        path: "/clickfood/foods",
         element: <CreateMenu />,
       },
       // {
