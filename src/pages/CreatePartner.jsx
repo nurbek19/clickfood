@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../api";
 
-import { PartnerForm } from "./PartnerForm"
+import { PartnerForm } from "./PartnerForm";
 
 export const CreatePartner = () => {
     const [searchParams] = useSearchParams();
@@ -12,6 +12,9 @@ export const CreatePartner = () => {
 
     useEffect(() => {
         const loadPartner = async () => {
+            console.log(searchParams.get('chat_id'));
+            
+
             try {
                 const res = await api.get(`/partner?chat_id=${searchParams.get('chat_id')}`);
                 setExistingPartner(res.data);
@@ -30,7 +33,7 @@ export const CreatePartner = () => {
         };
 
         loadPartner();
-    }, []);
+    }, [searchParams]);
 
     if (loading) return <p>Загрузка...</p>;
 
