@@ -57,7 +57,7 @@ export const CreatePartner = () => {
         return () => {
             WebApp.offEvent('mainButtonClicked', sendData);
         };
-    }, [name, address, phone]);
+    }, [name, address, phone, sendData]);
 
 
     const onDrop = useCallback(async (acceptedFiles) => {
