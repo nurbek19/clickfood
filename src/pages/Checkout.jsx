@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import WebApp from '@twa-dev/sdk';
 
@@ -150,7 +150,7 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
 
             <div className="total-wrapper">
                 <strong>Сумма: {total} сом</strong>
-                <button className="button" onClick={handleSubmit}>Оплатить</button>
+                {/* <button className="button" onClick={handleSubmit}>Оплатить</button> */}
             </div>
         </div>
     );
