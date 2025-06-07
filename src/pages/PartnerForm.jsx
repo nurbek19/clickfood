@@ -46,7 +46,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
     if (preorder) delivery_options.push({ option: "preorder" });
 
     WebApp.sendData(JSON.stringify({
-      id: existingPartner?.id,
+      _id: existingPartner?._id,
       name,
       address,
       contact: phone,

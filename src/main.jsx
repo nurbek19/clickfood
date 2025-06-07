@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import App from './App.jsx'
 import { CreatePartner } from './pages/CreatePartner.jsx'
+import { CreateMenu } from './pages/CreateMenu.jsx'
 
 import './index.css'
 
@@ -20,10 +21,10 @@ const router = createBrowserRouter([
         path: "/clickfood/",
         element: <CreatePartner />,
       },
-      // {
-      //   path: "/clickfood/my-tours",
-      //   element: <OwnerAdvertisementsList />,
-      // },
+      {
+        path: "/clickfood/create-foods",
+        element: <CreateMenu />,
+      },
       // {
       //   path: "/clickfood/search",
       //   element: <UserSearchPage />,
