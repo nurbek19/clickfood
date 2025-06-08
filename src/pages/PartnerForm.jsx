@@ -162,7 +162,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
       <div {...getRootProps()} className="upload-box">
         <input {...getInputProps()} />
-        <button className="secondary-button">Загрузить изображение</button>
+        <button className="secondary-button">
+          {photoId ? 'Заменить фотографию' : 'Загрузить изображение'}
+        </button>
 
         {photoId && (
           <div className="company-phot-container">
