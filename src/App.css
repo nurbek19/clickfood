@@ -142,80 +142,123 @@
   }
 
   .switch-buttons .switch {
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+  }
+
+  .switch-buttons .field-label {
+    padding-bottom: 15px;
+  }
+
+  .secondary-button {
+    background-color: transparent;
+    font-size: 18px;
+  color: var(--tg-theme-text-color);
+  text-align: center;
+
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--tg-theme-button-color);
+  border-radius: 8px;
+
+  box-sizing: border-box;
+  }
+
+  .company-phot-container {
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .company-phot-container img {
+    width: 200px;
+  }
+
+  .partner-form-container {
+    padding: 10px;
   }
 
 
 
   /* OrderPage.css */
-.order-page {
+  .order-page {
     /* padding: 16px; */
-}
-.dish-list {
+  }
+
+  .dish-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     /* gap: 12px; */
-}
-.dish-card {
+  }
+
+  .dish-card {
     border: 1px solid #ddd;
     padding: 8px;
     /* width: 150px; */
     width: 48%;
     text-align: center;
     box-sizing: border-box;
-}
-.order-footer {
+  }
+
+  .order-footer {
     margin-top: 20px;
     text-align: center;
-}
+  }
 
 
-.checkout-page {
+  .checkout-page {
     padding: 16px;
-}
-.back-button {
+  }
+
+  .back-button {
     margin-bottom: 12px;
-}
-.checkout-list {
+  }
+
+  .checkout-list {
     margin-bottom: 20px;
-}
-.checkout-item {
+  }
+
+  .checkout-item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-}
-.form-wrapper {
+  }
+
+  .form-wrapper {
     display: flex;
     flex-direction: column;
     gap: 8px;
     margin-bottom: 20px;
-}
-.text-field, .text-area {
+  }
+
+  .text-field,
+  .text-area {
     padding: 8px;
     width: 100%;
-}
-.total-wrapper {
+  }
+
+  .total-wrapper {
     text-align: center;
-}
-.button {
+  }
+
+  .button {
     margin-top: 10px;
     padding: 10px;
     width: 100%;
-}
+  }
 
-.counter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.counter button {
-  width: 30px;
-  height: 30px;
-}
+  .counter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-.dish-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: contain;
-}
+  .counter button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dish-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+  }

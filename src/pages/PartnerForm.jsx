@@ -99,7 +99,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   });
 
   return (
-    <div>
+    <div className="partner-form-container">
       <div className="field-wrapper">
         <label htmlFor="name" className="field-label">Название</label>
         <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
@@ -129,12 +129,25 @@ export const PartnerForm = ({ existingPartner = null }) => {
         <span className="field-label">Варианты заказов</span>
 
         <label className="switch">
+          <input type="checkbox" checked={selfDrive} onChange={(e) => setSelfDrive(e.target.checked)} />
+          <span className="slider round" />
+          <span>Самовывоз</span>
+        </label>
+
+        <label className="switch">
+          <input type="checkbox" checked={preorder} onChange={(e) => setPreorder(e.target.checked)} />
+          <span className="slider round" />
+          <span>Предзаказ</span>
+        </label>
+
+        <label className="switch">
           <input type="checkbox" checked={delivery} onChange={(e) => setDelivery(e.target.checked)} />
           <span className="slider round" />
           <span>Доставка</span>
         </label>
+      </div>
 
-        {delivery && (
+      {delivery && (
           <div className="field-wrapper">
             <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
             <input
@@ -147,22 +160,15 @@ export const PartnerForm = ({ existingPartner = null }) => {
           </div>
         )}
 
-        <label className="switch">
-          <input type="checkbox" checked={selfDrive} onChange={(e) => setSelfDrive(e.target.checked)} />
-          <span className="slider round" />
-          <span>Самовывоз</span>
-        </label>
-
-        <label className="switch">
-          <input type="checkbox" checked={preorder} onChange={(e) => setPreorder(e.target.checked)} />
-          <span className="slider round" />
-          <span>Предзаказ</span>
-        </label>
-      </div>
-
       <div {...getRootProps()} className="upload-box">
         <input {...getInputProps()} />
-        <p>Загрузить изображение</p>
+        <button className="secondary-button">Загрузить изображение</button>
+
+        {photoId && (
+          <div className="company-phot-container">
+            <img src={`https://booklink.pro/cf/photo?id=${photoId}`} alt="company" />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -125,6 +125,7 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
                     onChange={(e) => setAddress(e.target.value)}
                     className="text-field"
                 />
+                {/* сделать так чтобы при доставке только высвечивалась */}
                 <input
                     type="text"
                     placeholder="Телефон"
