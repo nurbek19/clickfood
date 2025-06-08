@@ -69,7 +69,7 @@ export const CreateMenu = () => {
     <div className="create-menu-container">
       {editingIndex !== null ? (
         <div>
-          <button onClick={() => setEditingIndex(null)}>← Назад</button>
+          <button className="back-button" onClick={() => setEditingIndex(null)}>« Назад</button>
           <EditDishModal
             dish={dishes[editingIndex]}
             categories={categories}

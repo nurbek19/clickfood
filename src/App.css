@@ -149,18 +149,35 @@
     padding-bottom: 15px;
   }
 
-  .secondary-button {
-    background-color: transparent;
+  .secondary-button,
+  .primary-button {
+    
     font-size: 18px;
     color: var(--tg-theme-text-color);
     text-align: center;
 
     width: 100%;
     padding: 10px;
-    border: 2px solid var(--tg-theme-button-color);
+    
     border-radius: 8px;
 
     box-sizing: border-box;
+  }
+
+  .secondary-button {
+    background-color: transparent;
+    border: 2px solid var(--tg-theme-button-color);
+  }
+
+  .primary-button {
+    background-color: var(--tg-theme-button-color);
+    border: none;
+  }
+
+  .edit-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
   .company-phot-container {
@@ -269,7 +286,17 @@
     gap: 20px;
   }
 
-
+  .back-button {
+    background-color: transparent;
+    font-size: 18px;
+    color: var(--tg-theme-button-color);
+    padding: 6px 0;
+    border: 0;
+  
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 
   /* OrderPage.css */
   .order-page {
