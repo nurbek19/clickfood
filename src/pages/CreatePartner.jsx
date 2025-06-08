@@ -35,7 +35,7 @@ export const CreatePartner = () => {
         loadPartner();
     }, [searchParams]);
 
-    if (loading) return <p>Загрузка...</p>;
+    if (loading) return <div className="loading">Загрузка...</div>;
 
     return (
         <PartnerForm existingPartner={existingPartner} />
