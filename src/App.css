@@ -189,6 +189,7 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    padding-bottom: 15px;
   }
 
   .dish-upload-button {
@@ -253,6 +254,7 @@
   .food-badge button {
     background: transparent;
     border: none;
+    padding: 0;
   }
 
   .food-badge svg {
