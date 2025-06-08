@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
-import { api } from "../api";
 import { useDropzone } from "react-dropzone";
+
+import { api } from "../api";
 
 export const DishForm = ({ dishes, setDishes, categories, setCategories }) => {
   const [form, setForm] = useState({
@@ -106,6 +107,7 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories }) => {
         />
       </div>
 
+      <div className="group-form">
       <div className="field-wrapper">
         <label htmlFor="price" className="field-label">Цена</label>
         <input
@@ -126,6 +128,7 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories }) => {
           value={form.weight}
           onChange={(e) => setForm((prev) => ({ ...prev, weight: e.target.value }))}
         />
+      </div>
       </div>
 
       {dishes.length > 0 ? (
@@ -170,7 +173,6 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories }) => {
       )}
 
       <div className="field-wrapper">
-        {/* <span className="field-label">Варианты заказов</span> */}
         <label className="switch">
           <input type="checkbox" checked={form.active} onChange={(e) => setForm((prev) => ({ ...prev, active: e.target.checked }))} />
           <span className="slider round" />
@@ -192,7 +194,7 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories }) => {
         )}
       </div>
 
-      {/* <button className="secondary-button" onClick={handleAddDish}>Добавить блюдо</button> */}
+      <button className="secondary-button" onClick={handleAddDish}>Добавить блюдо</button>
     </div>
   );
 };

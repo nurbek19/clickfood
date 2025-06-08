@@ -88,7 +88,7 @@ export const CreateMenu = () => {
           <DishForm dishes={dishes} setDishes={setDishes} categories={categories} setCategories={setCategories} />
           <DishList dishes={dishes} onEdit={setEditingIndex} />
 
-          <button onClick={sendData}>btn</button>
+          {/* <button onClick={sendData}>btn</button> */}
         </>
       )}
     </div>
