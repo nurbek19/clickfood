@@ -148,19 +148,19 @@ export const PartnerForm = ({ existingPartner = null }) => {
       </div>
 
       {delivery && (
-          <div className="field-wrapper">
-            <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
-            <input
-              type="number"
-              id="delivery-price"
-              className="text-field"
-              value={deliveryCost}
-              onChange={(e) => setDeliveryCost(e.target.value)}
-            />
-          </div>
-        )}
+        <div className="field-wrapper">
+          <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
+          <input
+            type="number"
+            id="delivery-price"
+            className="text-field"
+            value={deliveryCost}
+            onChange={(e) => setDeliveryCost(e.target.value)}
+          />
+        </div>
+      )}
 
-      <div {...getRootProps()} className="upload-box">
+      <div {...getRootProps()}>
         <input {...getInputProps()} />
         <button className="secondary-button">
           {photoId ? 'Заменить фотографию' : 'Загрузить изображение'}

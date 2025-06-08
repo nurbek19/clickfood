@@ -152,15 +152,15 @@
   .secondary-button {
     background-color: transparent;
     font-size: 18px;
-  color: var(--tg-theme-text-color);
-  text-align: center;
+    color: var(--tg-theme-text-color);
+    text-align: center;
 
-  width: 100%;
-  padding: 10px;
-  border: 2px solid var(--tg-theme-button-color);
-  border-radius: 8px;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--tg-theme-button-color);
+    border-radius: 8px;
 
-  box-sizing: border-box;
+    box-sizing: border-box;
   }
 
   .company-phot-container {
@@ -172,7 +172,8 @@
     width: 200px;
   }
 
-  .partner-form-container {
+  .partner-form-container,
+  .create-menu-container {
     padding: 5px;
   }
 
@@ -181,6 +182,39 @@
     align-items: center;
     justify-content: center;
     height: 90vh;
+  }
+
+  .dish-form-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .dish-upload-button {
+    background-color: var(--tg-theme-secondary-bg-color);
+    font-size: 18px;
+    color: var(--tg-theme-text-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 8px;
+  }
+
+  .dish-upload-button svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--tg-theme-text-color);
+  }
+
+  .dish-form-upload img {
+    width: 100px;
   }
 
 
