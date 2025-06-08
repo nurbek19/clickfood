@@ -13,6 +13,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const [selfDrive, setSelfDrive] = useState(true);
   const [preorder, setPreorder] = useState(false);
   const [deliveryCost, setDeliveryCost] = useState(0);
+  const [freeDeliverySum, setFreeDeliverySum] = useState(0);
   const [photoId, setPhotoId] = useState('');
 
   // Заполняем данные при редактировании
@@ -21,6 +22,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       setName(existingPartner.name || '');
       setAddress(existingPartner.address || '');
       setPhone(existingPartner.contact || '');
+      setFreeDeliverySum(existingPartner.free_delivery_sum || 0)
 
       const opts = existingPartner.delivery_options || [];
       setDelivery(opts.some(o => o.option === "delivery"));
@@ -52,8 +54,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
       contact: phone,
       delivery_options,
       photo: photoId,
+      free_delivery_sum: parseInt(freeDeliverySum)
     }));
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, deliveryCost, photoId]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId]);
 
   // Кнопка Telegram
   useEffect(() => {
@@ -69,7 +72,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
     return () => {
       WebApp.offEvent("mainButtonClicked", sendData);
     };
-  }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, photoId]);
+  }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId]);
 
   // Загрузка фото
   const onDrop = useCallback(async (acceptedFiles) => {
@@ -159,6 +162,17 @@ export const PartnerForm = ({ existingPartner = null }) => {
           />
         </div>
       )}
+
+      <div className="field-wrapper">
+        <label htmlFor="free-delivery-sum" className="field-label">Сумма для бесплатной доставки</label>
+        <input
+          type="number"
+          id="free-delivery-sum"
+          className="text-field"
+          value={freeDeliverySum}
+          onChange={(e) => setFreeDeliverySum(e.target.value)}
+        />
+      </div>
 
       <div {...getRootProps()}>
         <input {...getInputProps()} />
