@@ -128,14 +128,6 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
                 text={`Оформить заказ – ${total} сом`}
                 onClick={onCheckout}
             />
-
-            {/* {cartItems.length > 0 && (
-                <div className="order-footer">
-                    <button className="primary-button" onClick={onCheckout}>
-                        Оформить заказ – {total} сом
-                    </button>
-                </div>
-            )} */}
         </div>
     );
 };
