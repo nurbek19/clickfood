@@ -455,3 +455,40 @@
   .order-page {
     padding-bottom: 70px;
   }
+
+  .form-wrapper {
+    padding: 20px 0;
+  }
+
+  .checkout-list {
+    background-color: var(--tg-theme-secondary-bg-color);
+    background-color: #eee;
+    padding: 10px 8px;
+    border-radius: 8px;
+  }
+
+  .checkout-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
+
+  .checkout-item p {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .increase-decrease-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .increase-decrease-buttons span {
+    font-size: 16px;
+  }
+
+  .total-wrapper {
+    padding-top: 10px;
+  }

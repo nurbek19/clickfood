@@ -93,14 +93,18 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
             <div className="checkout-list">
                 {cartItems.map(item => (
                     <div key={item._id} className="checkout-item">
-                        <span>{item.name}</span>
-                        <div>
+                        <p>{item.name}</p>
+                        <div className="increase-decrease-buttons">
                             <button onClick={() => updateQuantity(item._id, item.quantity - 1)}>-</button>
                             <span>{item.quantity}</span>
                             <button onClick={() => updateQuantity(item._id, item.quantity + 1)}>+</button>
                         </div>
                     </div>
                 ))}
+
+            <div className="total-wrapper">
+                <strong>Сумма: {total} сом</strong>
+            </div>
             </div>
 
             <div className="form-wrapper">
@@ -142,11 +146,6 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
 
                     <textarea id="comment" rows="3" className="text-field" value={comment} onChange={(e) => setComment(e.target.value)} />
                 </div>
-            </div>
-
-            <div className="total-wrapper">
-                <strong>Сумма: {total} сом</strong>
-                <button className="button" onClick={handleSubmit}>Оплатить</button>
             </div>
         </div>
     );
