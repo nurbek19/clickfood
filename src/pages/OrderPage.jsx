@@ -1,4 +1,3 @@
-// App.jsx
 import { useState } from "react";
 import { Order } from "./Order";
 import { Checkout } from "./Checkout";
@@ -8,7 +7,7 @@ export const OrderPage = () => {
     const [currentPage, setCurrentPage] = useState("order");
 
     return (
-        <>
+        <div className="order-page-container">
             {currentPage === "order" && (
                 <Order
                     cartItems={cartItems}
@@ -24,6 +23,6 @@ export const OrderPage = () => {
                     onBack={() => setCurrentPage("order")}
                 />
             )}
-        </>
+        </div>
     );
 };

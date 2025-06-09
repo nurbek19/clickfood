@@ -7,6 +7,7 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
     const [searchParams] = useSearchParams();
     const [dishes, setDishes] = useState([]);
     const [partner, setPartner] = useState(null);
+    const [dishCategory, setDishCategory] = useState(cartItems[0]?.category ?? '');
 
     useEffect(() => {
         const fetchDishes = async () => {
@@ -58,13 +59,37 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
 
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    const grouped = dishes.reduce((acc, dish, index) => {
+        const cat = dish.category || "Без категории";
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push({ ...dish, index });
+        return acc;
+    }, {});
+
     return (
         <div className="order-page">
             {partner && (
-                <h2>{partner.name}</h2>
+                <div className="partner-details">
+                    <h2>{partner.name}</h2>
+                    <p>{partner.address}</p>
+                </div>
             )}
 
-            <h4>Меню</h4>
+            <div className="field-wrapper">
+                <span className="field-label">Выберите категорию:</span>
+
+                <div className="dish-categories-container">
+                    {Object.keys(grouped).map((category) => (
+                        <label className="radio-input-label" key={category}>
+                            <input type="radio" name="houseType" value={category} className="radio-input" checked={dishCategory === category} onChange={(e) => setDishCategory(e.target.value)} />
+
+                            <span className="radio-input-text">
+                                {category}
+                            </span>
+                        </label>
+                    ))}
+                </div>
+            </div>
 
             <div className="dish-list">
                 {dishes.map(dish => {

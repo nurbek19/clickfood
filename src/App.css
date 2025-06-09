@@ -190,7 +190,8 @@
   }
 
   .partner-form-container,
-  .create-menu-container {
+  .create-menu-container,
+  .order-page-container {
     padding: 5px;
   }
 
@@ -265,7 +266,6 @@
   }
 
   .food-badge p {
-    /* font-size: 18px; */
     margin: 0;
   }
 
@@ -299,87 +299,76 @@
     z-index: 10;
   }
 
-  /* OrderPage.css */
-  .order-page {
-    /* padding: 16px; */
-  }
+.partner-details {
+  padding-bottom: 20px;
+}
 
-  .dish-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    /* gap: 12px; */
-  }
+.partner-details h2 {
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 8px;
+}
 
-  .dish-card {
-    border: 1px solid #ddd;
-    padding: 8px;
-    /* width: 150px; */
-    width: 48%;
-    text-align: center;
-    box-sizing: border-box;
-  }
+.partner-details p {
+  color: var(--tg-theme-subtitle-text-color);
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
 
-  .order-footer {
-    margin-top: 20px;
-    text-align: center;
-  }
+.dish-categories-container {
+  white-space: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
 
+.radio-input-label {
+  position: relative;
 
-  .checkout-page {
-    padding: 16px;
-  }
+  border-right: 1px solid var(--tg-theme-bg-color);
+  /* border-right: 1px solid #000; */
 
-  .back-button {
-    margin-bottom: 12px;
-  }
+  overflow: hidden;
+  cursor: pointer;
+}
 
-  .checkout-list {
-    margin-bottom: 20px;
-  }
+.radio-input {
+  position: absolute;
+  left: -9999px;
+}
 
-  .checkout-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
+.radio-input-text {
+  font-size: 18px;
+  color: var(--tg-theme-text-color);
 
-  .form-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
+  display: inline-flex;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: var(--tg-theme-secondary-bg-color);
+  /* background-color: #eee; */
 
-  .text-field,
-  .text-area {
-    padding: 8px;
-    width: 100%;
-  }
+  width: 100%;
+  padding: 8px 10px;
 
-  .total-wrapper {
-    text-align: center;
-  }
+  transition: 0.25s ease;
+}
 
-  .button {
-    margin-top: 10px;
-    padding: 10px;
-    width: 100%;
-  }
+.radio-input-text {
+  font-size: 14px;
 
-  .counter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  align-items: center;
+  gap: 5px;
+  height: 100%;
+}
 
-  .counter button {
-    width: 30px;
-    height: 30px;
-  }
+.radio-input:checked+.radio-input-text {
+  background-color: var(--tg-theme-button-color);
+  /* background-color: blue; */
+  color: var(--tg-theme-button-text-color)
+}
 
-  .dish-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: contain;
-  }
+.dish-categories-container .radio-input-label {
+  display: inline-flex;
+  border-radius: 25px;
+  margin-right: 5px;
+}
