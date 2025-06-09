@@ -462,7 +462,7 @@
 
   .checkout-list {
     background-color: var(--tg-theme-secondary-bg-color);
-    background-color: #eee;
+    /* background-color: #eee; */
     padding: 10px 8px;
     border-radius: 8px;
   }
