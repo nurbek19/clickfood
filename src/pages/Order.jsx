@@ -7,13 +7,14 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
     const [searchParams] = useSearchParams();
     const [dishes, setDishes] = useState([]);
     const [partner, setPartner] = useState(null);
-    const [dishCategory, setDishCategory] = useState(cartItems[0]?.category ?? '');
+    const [dishCategory, setDishCategory] = useState('');
 
     useEffect(() => {
         const fetchDishes = async () => {
             try {
                 const res = await api.get(`/foods?partner_id=${searchParams.get('partner_id')}`);
                 setDishes(res.data);
+                setDishCategory(res.data?.[0]?.category ?? '');
             } catch (err) {
                 console.error(err);
             }
@@ -92,20 +93,27 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
             </div>
 
             <div className="dish-list">
-                {dishes.map(dish => {
+                {grouped[dishCategory] && grouped[dishCategory].map(dish => {
                     const qty = getQuantity(dish._id);
                     return (
                         <div className="dish-card" key={dish._id}>
-                            <img src={`https://booklink.pro/cf/photo?id=${dish.photo}`} alt="" />
-                            <h4>{dish.name}</h4>
-                            <p>{dish.price} сом</p>
+                            <div className="dish-card-image">
+                                <img src={`https://booklink.pro/cf/photo?id=${dish.photo}`} alt="" />
+                            </div>
+                            <div className="dish-details">
+                                <span className="dish-price">{dish.price} сом</span>
+                                <span className="dish-weight">{dish.weight} г / мл</span>
+                            </div>
+
+                            <p className="dish-title">{dish.name}</p>
+
                             {qty === 0 ? (
-                                <button onClick={() => updateCart(dish, 1)}>Добавить</button>
+                                <button className="primary-button" onClick={() => updateCart(dish, 1)}>Добавить</button>
                             ) : (
-                                <div className="counter">
-                                    <button onClick={() => updateCart(dish, qty - 1)}>-</button>
+                                <div className="dish-counters">
+                                    <button className="primary-button" onClick={() => updateCart(dish, qty - 1)}>-</button>
                                     <span>{qty}</span>
-                                    <button onClick={() => updateCart(dish, qty + 1)}>+</button>
+                                    <button className="primary-button" onClick={() => updateCart(dish, qty + 1)}>+</button>
                                 </div>
                             )}
                         </div>
@@ -115,7 +123,7 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
 
             {cartItems.length > 0 && (
                 <div className="order-footer">
-                    <button onClick={onCheckout}>
+                    <button className="primary-button" onClick={onCheckout}>
                         Оформить заказ – {total} сом
                     </button>
                 </div>
