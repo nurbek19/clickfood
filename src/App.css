@@ -489,6 +489,14 @@
     font-size: 16px;
   }
 
+  .increase-decrease-buttons button {
+    font-size: 20px;
+    font-weight: 600;
+    background-color: transparent;
+    padding: 0 10px;
+    border: none;
+  }
+
   .total-wrapper {
     padding-top: 10px;
   }
