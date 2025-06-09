@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import AnimatedBottomButton from "../components/AnimatedBottomButton";
+
 import { api } from "../api";
 import "../App.css";
 
@@ -76,7 +78,7 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
                 </div>
             )}
 
-            <div className="field-wrapper">
+            <div className="field-wrapper categories-container">
                 <span className="field-label">Выберите категорию:</span>
 
                 <div className="dish-categories-container">
@@ -121,13 +123,19 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
                 })}
             </div>
 
-            {cartItems.length > 0 && (
+            <AnimatedBottomButton
+                visible={cartItems.length > 0}
+                text={`Оформить заказ – ${total} сом`}
+                onClick={onCheckout}
+            />
+
+            {/* {cartItems.length > 0 && (
                 <div className="order-footer">
                     <button className="primary-button" onClick={onCheckout}>
                         Оформить заказ – {total} сом
                     </button>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

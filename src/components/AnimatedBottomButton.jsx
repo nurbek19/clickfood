@@ -9,18 +9,6 @@ const AnimatedBottomButton = ({ visible, text, onClick }) => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          style={{
-            position: 'fixed',
-            bottom: '10px',
-            left: '50%',
-            width: '90%',
-            maxWidth: '400px',
-            textAlign: 'center',
-            padding: '14px',
-            borderRadius: '12px',
-            fontWeight: '600',
-            cursor: 'pointer',
-          }}
           onClick={onClick}
           className='fixed-button'
         >
