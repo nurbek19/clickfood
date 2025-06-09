@@ -11,7 +11,7 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [comment, setComment] = useState("");
-    const [deliveryType, setDeliveryType] = useState("delivery");
+    const [deliveryType, setDeliveryType] = useState("");
 
     const updateQuantity = (id, quantity) => {
         if (quantity === 0) {
@@ -37,7 +37,6 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
 
         const orderData = {
             foods,
-            // total,
             address,
             phone,
             comment,
@@ -55,7 +54,6 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
         api.post('/order', orderData).then((res) => {
             if (res.data) {
                 WebApp.MainButton.hide();
-                // window.location.href = res.data.url;
                 WebApp.openLink(res.data.url);
                 WebApp.close();
             }
@@ -64,12 +62,6 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
             WebApp.MainButton.hideProgress();
             WebApp.MainButton.text = 'Произошло какая то ошибка';
         }) //переписать на try catch
-
-        // Очистить корзину
-        // setCartItems([]);
-
-        // Можно также показать сообщение или перейти на другую страницу
-        // alert("Заказ оформлен!");
     };
 
     useEffect(() => {
@@ -93,17 +85,11 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
         } else {
             WebApp.MainButton.hide();
         }
-
-        // return () => {
-        //     WebApp.MainButton.hide();
-        // };
     }, [isValid]);
 
     return (
         <div className="checkout-page">
-            <button className="back-button" onClick={onBack}>← Назад</button>
-            <h2>Оформление заказа</h2>
-
+            <button className="back-button" onClick={onBack}>« Назад</button>
             <div className="checkout-list">
                 {cartItems.map(item => (
                     <div key={item._id} className="checkout-item">
@@ -118,42 +104,49 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
             </div>
 
             <div className="form-wrapper">
-                <input
-                    type="text"
-                    placeholder="Адрес"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="text-field"
-                />
+                <div className="field-wrapper">
+                    <label htmlFor="address" className="field-label">Адрес</label>
+                    <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
+                </div>
                 {/* сделать так чтобы при доставке только высвечивалась */}
-                <input
-                    type="text"
-                    placeholder="Телефон"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="text-field"
-                />
-                <textarea
-                    placeholder="Комментарий"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    className="text-area"
-                />
-                <select
-                    value={deliveryType}
-                    onChange={(e) => setDeliveryType(e.target.value)}
-                    className="text-field"
-                >
-                    <option value="delivery">Доставка</option>
-                    <option value="self_drive">Самовывоз</option>
-                    <option value="preorder">Предзаказ</option> 
-                    {/* сделать так чтобы запросить данные партнера потом исходя от него сделать опшины */}
-                </select>
+
+
+                <div className="field-wrapper">
+                    <label htmlFor="phone" className="field-label">Номер телефона</label>
+                    <input
+                        type="tel"
+                        pattern="[0-9]*"
+                        noValidate
+                        id="phone"
+                        className="text-field"
+                        placeholder="0555 555 555"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        maxLength={10}
+                    />
+                </div>
+
+                <div className="field-wrapper select-wrapper">
+                    <label htmlFor="delivery-type" className="field-label">Тип заказа</label>
+                    <select id="delivery-type" className="select-field" value={deliveryType} onChange={(e) => setDeliveryType(e.target.value)}>
+                        <option value="" disabled>Выбрать тип заказа</option>
+                        <option value="delivery">Доставка</option>
+                        <option value="self_drive">Самовывоз</option>
+                        <option value="preorder">Предзаказ</option>
+                        {/* сделать так чтобы запросить данные партнера потом исходя от него сделать опшины */}
+                    </select>
+                </div>
+
+                <div className="field-wrapper">
+                    <label htmlFor="comment" className="field-label">Комментарий к заведению</label>
+
+                    <textarea id="comment" rows="3" className="text-field" value={comment} onChange={(e) => setComment(e.target.value)} />
+                </div>
             </div>
 
             <div className="total-wrapper">
                 <strong>Сумма: {total} сом</strong>
-                {/* <button className="button" onClick={handleSubmit}>Оплатить</button>/ */}
+                <button className="button" onClick={handleSubmit}>Оплатить</button>
             </div>
         </div>
     );
