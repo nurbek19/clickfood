@@ -371,6 +371,9 @@
     background-color: var(--tg-theme-secondary-bg-color);
     padding: 8px;
     border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
   }
 
   .dish-card-image {
@@ -412,6 +415,7 @@
     font-size: 16px;
     margin: 0;
     padding-bottom: 10px;
+    flex-grow: 1;
   }
 
   .dish-counters {
