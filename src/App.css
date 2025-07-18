@@ -237,33 +237,21 @@
     width: 100px;
   }
 
-  .dish-list-container {
+  .dish-list-container .dish-list {
     padding-top: 20px;
   }
 
-  .partner-dish-card {
-    padding-bottom: 15px;
-  }
-
-  .partner-dish-card h4 {
-    margin: 0;
-    padding-bottom: 10px;
-  }
-
-  .badges-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
   .food-badge {
-    background-color: var(--tg-theme-button-color);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
 
-    padding: 10px 20px;
-    border-radius: 25px;
+    padding: 10px;
+
+    border: 1px solid var(--tg-theme-secondary-bg-color);
+    /* border: 1px solid #eee; */
+    border-radius: 8px;
   }
 
   .food-badge p {
@@ -503,4 +491,36 @@
 
   .total-wrapper {
     padding-top: 10px;
+  }
+
+  .operation-type-switchers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .operation-type-switchers .radio-input-label {
+    margin-right: 0;
+    border-radius: 0;
+    border-right: 1px solid var(--tg-theme-bg-color);
+  }
+
+  .operation-type-switchers .radio-input-label:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-right: 1px solid var(--tg-theme-bg-color);
+  }
+
+  .operation-type-switchers .radio-input-label:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .operation-type-switchers .radio-input-text {
+    text-align: center;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
   }

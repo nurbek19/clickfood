@@ -15,6 +15,7 @@ export const CreateMenu = () => {
   const [categories, setCategories] = useState([]);
 
   const [editingIndex, setEditingIndex] = useState(null);
+  const [operation, setOperationType] = useState('create');
 
   // Загрузка блюд с сервера
   useEffect(() => {
@@ -67,6 +68,21 @@ export const CreateMenu = () => {
 
   return (
     <div className="create-menu-container">
+      <div className="field-wrapper">
+        {/* <span className="field-label">Выберите календарь:</span> */}
+
+        <div className="operation-type-switchers">
+          <label className="radio-input-label">
+            <input type="radio" name="operation" value="create" className="radio-input" checked={operation === 'create'} onChange={(e) => setOperationType(e.target.value)} />
+            <span className="radio-input-text">Добавить блюдо</span>
+          </label>
+          <label className="radio-input-label">
+            <input type="radio" name="operation" value="edit" className="radio-input" checked={operation === 'edit'} onChange={(e) => setOperationType(e.target.value)} />
+            <span className="radio-input-text">Редактировать меню</span>
+          </label>
+        </div>
+      </div>
+
       {editingIndex !== null ? (
         <div>
           <button className="back-button" onClick={() => setEditingIndex(null)}>« Назад</button>
@@ -85,8 +101,12 @@ export const CreateMenu = () => {
         </div>
       ) : (
         <>
-          <DishForm dishes={dishes} setDishes={setDishes} categories={categories} setCategories={setCategories} />
-          <DishList dishes={dishes} onEdit={setEditingIndex} />
+          {operation === 'create' ? (
+            <DishForm dishes={dishes} setDishes={setDishes} categories={categories} setCategories={setCategories} />
+
+          ) : (
+            <DishList dishes={dishes} onEdit={setEditingIndex} />
+          )}
 
           {/* <button onClick={sendData}>btn</button> */}
         </>
