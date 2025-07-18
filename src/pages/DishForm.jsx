@@ -202,7 +202,7 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories }) => {
 
       <button className="secondary-button" onClick={handleAddDish}>Добавить блюдо</button>
 
-      <div>
+      <div className="new-dishes-container">
         {newDishes.map((d) => (
           <div key={d.temp_id} className="food-badge">
             <p>{d.name}</p>

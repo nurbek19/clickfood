@@ -362,7 +362,7 @@
 
   .dish-card {
     background-color: var(--tg-theme-secondary-bg-color);
-    background-color: #f4f4f5;
+    /* background-color: #f4f4f5; */
     padding: 8px;
     border-radius: 8px;
 
@@ -530,4 +530,8 @@
     display: flex;
     gap: 10px;
     align-items: center;
+  }
+
+  .new-dishes-container {
+    padding-top: 20px;
   }
