@@ -74,11 +74,11 @@ export const CreateMenu = () => {
         <div className="operation-type-switchers">
           <label className="radio-input-label">
             <input type="radio" name="operation" value="create" className="radio-input" checked={operation === 'create'} onChange={(e) => setOperationType(e.target.value)} />
-            <span className="radio-input-text">Добавить блюдо</span>
+            <span className="radio-input-text">Добавить</span>
           </label>
           <label className="radio-input-label">
             <input type="radio" name="operation" value="edit" className="radio-input" checked={operation === 'edit'} onChange={(e) => setOperationType(e.target.value)} />
-            <span className="radio-input-text">Редактировать меню</span>
+            <span className="radio-input-text">Меню</span>
           </label>
         </div>
       </div>

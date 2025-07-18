@@ -41,7 +41,7 @@ export const DishList = ({ dishes, onEdit }) => {
 
               <p className="dish-title">{dish.name}</p>
 
-              <button className="secondary-button" onClick={() => onEdit(dish.index)}>Редактировать</button>
+              <button className="edit-button" onClick={() => onEdit(dish.index)}>Редактировать</button>
             </div>
           );
         })}

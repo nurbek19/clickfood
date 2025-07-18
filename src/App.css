@@ -150,9 +150,10 @@
   }
 
   .secondary-button,
-  .primary-button {
+  .primary-button,
+  .edit-button {
 
-    font-size: 18px;
+    font-size: 16px;
     color: var(--tg-theme-button-text-color);
     text-align: center;
 
@@ -173,6 +174,13 @@
   .primary-button {
     background-color: var(--tg-theme-button-color);
     border: none;
+  }
+
+  .edit-button {
+    background-color: var(--tg-theme-hint-color);
+    border: none;
+    /* background-color: #707579;
+    color: #f4f4f5; */
   }
 
   .edit-buttons {
@@ -249,8 +257,8 @@
 
     padding: 10px;
 
-    border: 1px solid var(--tg-theme-secondary-bg-color);
-    /* border: 1px solid #eee; */
+    border: 1px solid var(--tg-theme-hint-color);
+    /* border: 1px solid #707579; */
     border-radius: 8px;
   }
 
@@ -345,7 +353,7 @@
 
   .radio-input:checked+.radio-input-text {
     background-color: var(--tg-theme-button-color);
-    /* background-color: blue; */
+    /* background-color: #3390ec; */
     color: var(--tg-theme-button-text-color)
   }
 
@@ -357,6 +365,7 @@
 
   .dish-card {
     background-color: var(--tg-theme-secondary-bg-color);
+    /* background-color: #f4f4f5; */
     padding: 8px;
     border-radius: 8px;
 
@@ -517,6 +526,7 @@
 
   .operation-type-switchers .radio-input-text {
     text-align: center;
+    font-size: 18px;
   }
 
   .action-buttons {
