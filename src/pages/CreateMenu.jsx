@@ -69,7 +69,7 @@ export const CreateMenu = () => {
   return (
     <div className="create-menu-container">
       <div className="field-wrapper">
-        {/* <span className="field-label">Выберите календарь:</span> */}
+        <span className="field-label">Добавить блюдо или редактировать меню:</span>
 
         <div className="operation-type-switchers">
           <label className="radio-input-label">
