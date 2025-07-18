@@ -150,8 +150,7 @@
   }
 
   .secondary-button,
-  .primary-button,
-  .edit-button {
+  .primary-button {
 
     font-size: 16px;
     color: var(--tg-theme-button-text-color);
@@ -176,11 +175,9 @@
     border: none;
   }
 
-  .edit-button {
-    background-color: var(--tg-theme-hint-color);
-    border: none;
-    /* background-color: #707579;
-    color: #f4f4f5; */
+  .dish-list .secondary-button {
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
   }
 
   .edit-buttons {
@@ -365,7 +362,7 @@
 
   .dish-card {
     background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #f4f4f5; */
+    background-color: #f4f4f5;
     padding: 8px;
     border-radius: 8px;
 
