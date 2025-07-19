@@ -12,9 +12,6 @@ export const CreatePartner = () => {
 
     useEffect(() => {
         const loadPartner = async () => {
-            console.log(searchParams.get('chat_id'));
-            
-
             try {
                 const res = await api.get(`/partner?chat_id=${searchParams.get('chat_id')}`);
                 setExistingPartner(res.data);

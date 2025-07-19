@@ -54,7 +54,7 @@ export const EditDishModal = ({ dish, categories, setCategories, onSave, onCance
       ...form,
       price: parseInt(form.price),
       weight: parseInt(form.weight),
-      category: categoryToUse,
+      category: categoryToUse
     };
 
     if (!categories.includes(categoryToUse)) {

@@ -14,7 +14,7 @@ export const CreateMenu = () => {
   const [originalDishes, setOriginalDishes] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingDish, setEditingDish] = useState(null);
   const [operation, setOperationType] = useState('create');
 
   // Загрузка блюд с сервера
@@ -83,29 +83,34 @@ export const CreateMenu = () => {
         </div>
       </div>
 
-      {editingIndex !== null ? (
+      {editingDish !== null ? (
         <div>
-          <button className="back-button" onClick={() => setEditingIndex(null)}>« Назад</button>
+          <button className="back-button" onClick={() => setEditingDish(null)}>« Назад</button>
           <EditDishModal
-            dish={dishes[editingIndex]}
+            dish={editingDish}
             categories={categories}
             setCategories={setCategories}
             onSave={(updatedDish) => {
               setDishes((prev) =>
-                prev.map((d, i) => (i === editingIndex ? updatedDish : d))
+                prev.map((d) => {
+                  const matchById = d._id && editingDish._id && d._id === editingDish._id;
+                  const matchByTempId = d.temp_id && editingDish.temp_id && d.temp_id === editingDish.temp_id;
+
+                  return matchById || matchByTempId ? updatedDish : d;
+                })
               );
-              setEditingIndex(null);
+              setEditingDish(null);
             }}
-            onCancel={() => setEditingIndex(null)}
+            onCancel={() => setEditingDish(null)}
           />
         </div>
       ) : (
         <>
           {operation === 'create' ? (
-            <DishForm dishes={dishes} setDishes={setDishes} categories={categories} setCategories={setCategories} />
+            <DishForm dishes={dishes} setDishes={setDishes} categories={categories} setCategories={setCategories} setEditingDish={setEditingDish} />
 
           ) : (
-            <DishList dishes={dishes} onEdit={setEditingIndex} />
+            <DishList dishes={dishes} onEdit={setEditingDish} />
           )}
 
           {/* <button onClick={sendData}>btn</button> */}
