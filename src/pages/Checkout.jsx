@@ -5,7 +5,13 @@ import WebApp from '@twa-dev/sdk';
 import { api } from "../api";
 import "../App.css";
 
-export const Checkout = ({ cartItems, setCartItems, onBack }) => {
+const OPTIONS_LABEL = {
+    'delivery': 'Доставка',
+    'self_drive': 'Самовывоз',
+    'preorder': 'Предзаказ'
+}
+
+export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     const [searchParams] = useSearchParams();
 
     const [address, setAddress] = useState("");
@@ -102,17 +108,28 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
                     </div>
                 ))}
 
-            <div className="total-wrapper">
-                <strong>Сумма: {total} сом</strong>
-            </div>
+                <div className="total-wrapper">
+                    <strong>Сумма: {total} сом</strong>
+                </div>
             </div>
 
             <div className="form-wrapper">
-                <div className="field-wrapper">
-                    <label htmlFor="address" className="field-label">Адрес</label>
-                    <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
+                <div className="field-wrapper select-wrapper">
+                    <label htmlFor="delivery-type" className="field-label">Тип заказа</label>
+                    <select id="delivery-type" className="select-field" value={deliveryType} onChange={(e) => setDeliveryType(e.target.value)}>
+                        <option value="" disabled>Выбрать тип заказа</option>
+                        {partner.delivery_options?.map((obj) => (
+                            <option key={obj.option} value={obj.option}>{OPTIONS_LABEL[obj.option]}</option>
+                        ))}
+                    </select>
                 </div>
-                {/* сделать так чтобы при доставке только высвечивалась */}
+
+                {deliveryType === 'delivery' && (
+                    <div className="field-wrapper">
+                        <label htmlFor="address" className="field-label">Адрес</label>
+                        <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
+                    </div>
+                )}
 
 
                 <div className="field-wrapper">
@@ -128,17 +145,6 @@ export const Checkout = ({ cartItems, setCartItems, onBack }) => {
                         onChange={(e) => setPhone(e.target.value)}
                         maxLength={10}
                     />
-                </div>
-
-                <div className="field-wrapper select-wrapper">
-                    <label htmlFor="delivery-type" className="field-label">Тип заказа</label>
-                    <select id="delivery-type" className="select-field" value={deliveryType} onChange={(e) => setDeliveryType(e.target.value)}>
-                        <option value="" disabled>Выбрать тип заказа</option>
-                        <option value="delivery">Доставка</option>
-                        <option value="self_drive">Самовывоз</option>
-                        <option value="preorder">Предзаказ</option>
-                        {/* сделать так чтобы запросить данные партнера потом исходя от него сделать опшины */}
-                    </select>
                 </div>
 
                 <div className="field-wrapper">

@@ -54,6 +54,7 @@ export const OrderPage = () => {
                 <Checkout
                     cartItems={cartItems}
                     setCartItems={setCartItems}
+                    partner={partner}
                     onBack={() => setCurrentPage("order")}
                 />
             )}
