@@ -18,6 +18,24 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     const [phone, setPhone] = useState("");
     const [comment, setComment] = useState("");
     const [deliveryType, setDeliveryType] = useState("");
+    const [freeDeliverySum, setFreeDeliverySum] = useState(0);
+    const [fixedPrice, setFixedPrice] = useState(0);
+    const [isFreeDelivery, setIsFreeDelivery] = useState(false);
+
+    useEffect(() => {
+        if (partner?.free_delivery_sum !== 0) {
+            setFreeDeliverySum(partner.free_delivery_sum)
+        }
+
+        const deliveryOption = partner?.delivery_options?.find((o) => o.option === 'delivery');
+
+        if (deliveryOption?.price !== 0) {
+            setFixedPrice(deliveryOption.price);
+        } else {
+            setIsFreeDelivery(true);
+        }
+
+    }, [partner]);
 
     const updateQuantity = (id, quantity) => {
         if (quantity === 0) {
@@ -82,7 +100,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     }, [cartItems, address, phone, deliveryType]);
 
     useEffect(() => {
-        WebApp.MainButton.text = 'Оплатить';
+        WebApp.MainButton.text = `Оплатить - ${total} сом`;
 
         if (isValid) {
             WebApp.MainButton.show();
@@ -90,7 +108,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
         } else {
             WebApp.MainButton.hide();
         }
-    }, [isValid]);
+    }, [isValid, total]);
 
     return (
         <div className="checkout-page">
@@ -116,9 +134,59 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 ))}
 
                 <div className="total-wrapper">
-                    <strong>Сумма: {total} сом</strong>
+                    {deliveryType === 'delivery' && freeDeliverySum && (
+                        freeDeliverySum - total > 0 ? (
+                            <div className="free-delivery-sum">До бесплатной доставки {freeDeliverySum - total} сом</div>
+                        ) : (
+                            <div className="free-delivery-sum">Бесплатная доставка</div>
+                        )
+
+                    )}
+
+                    {deliveryType === 'delivery' ? (
+                        <div className="delivery-sum">
+                            <p>Сумма: {total} сом</p>
+                            {freeDeliverySum ? (
+                                <p>
+                                    {freeDeliverySum - total > 0 ? (
+                                        `Доставка: ${fixedPrice} сом`
+                                    ) : (
+                                        'Доставка: 0 сом'
+                                    )}
+                                </p>
+                            ) : (
+                                <p>Доставка: {isFreeDelivery ? 0 : fixedPrice} сом</p>
+                            )}
+
+                            <strong>
+                                Итого: {freeDeliverySum ? (
+                                    freeDeliverySum - total > 0 ? (
+                                        total + fixedPrice
+                                    ) : (
+                                        total
+                                    )
+                                ) : (
+                                    isFreeDelivery ? total : (total + fixedPrice)
+                                )} сом
+                            </strong>
+                        </div>
+                    ) : (
+                        <strong>Сумма: {total} сом</strong>
+                    )}
                 </div>
             </div>
+
+            {deliveryType === 'delivery' && freeDeliverySum && (
+                <div className="delivery-information">Бесплатная доставка - для заказа от {partner.free_delivery_sum} сом</div>
+            )}
+
+            {deliveryType === 'delivery' && isFreeDelivery && (
+                <div className="delivery-information">Доставка бесплатная</div>
+            )}
+
+            {deliveryType === 'delivery' && fixedPrice && (
+                <div className="delivery-information">Фиксированная цена доставки {fixedPrice} сом</div>
+            )}
 
             <div className="form-wrapper">
                 <div className="field-wrapper select-wrapper">

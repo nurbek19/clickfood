@@ -456,7 +456,7 @@
   .checkout-list {
     background-color: var(--tg-theme-secondary-bg-color);
     /* background-color: #eee; */
-    padding: 10px 8px;
+    padding: 10px;
     border-radius: 8px;
   }
 
@@ -539,4 +539,23 @@
 
   .new-dishes-container {
     padding-top: 20px;
+  }
+
+  .delivery-information {
+    font-size: 12px;
+    color: #3E5F44;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background-color: #93DA97;
+  }
+
+  .free-delivery-sum {
+    font-size: 14px;
+    color: #3E5F44;
+  }
+
+  .delivery-sum p {
+    margin: 0;
+    padding-bottom: 4px;
   }
