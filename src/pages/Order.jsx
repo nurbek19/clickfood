@@ -1,40 +1,14 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import AnimatedBottomButton from "../components/AnimatedBottomButton";
 
-import { api } from "../api";
 import "../App.css";
 
-export const Order = ({ cartItems, setCartItems, onCheckout }) => {
-    const [searchParams] = useSearchParams();
-    const [dishes, setDishes] = useState([]);
-    const [partner, setPartner] = useState(null);
+export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) => {
     const [dishCategory, setDishCategory] = useState('');
 
     useEffect(() => {
-        const fetchDishes = async () => {
-            try {
-                const res = await api.get(`/foods?partner_id=${searchParams.get('partner_id')}`);
-                setDishes(res.data);
-                setDishCategory(res.data?.[0]?.category ?? '');
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchDishes();
-    }, []);
-
-    useEffect(() => {
-        const fetchPartner = async () => {
-            try {
-                const res = await api.get(`/partner?chat_id=${searchParams.get('partner_id')}`);
-                setPartner(res.data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchPartner();
-    }, []);
+        setDishCategory(dishes?.[0]?.category ?? '');
+    }, [dishes]);
 
     const updateCart = (dish, quantity) => {
         if (quantity <= 0) {
@@ -98,7 +72,11 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
                 {grouped[dishCategory] && grouped[dishCategory].map(dish => {
                     const qty = getQuantity(dish._id);
                     return (
-                        <div className="dish-card" key={dish._id}>
+                        <div className="dish-card" key={dish._id} onClick={() => {
+                            if (qty === 0) {
+                                updateCart(dish, 1)
+                            }
+                        }}>
                             <div className="dish-card-image">
                                 <img src={`https://booklink.pro/cf/photo?id=${dish.photo}`} alt="" />
                             </div>
@@ -110,12 +88,18 @@ export const Order = ({ cartItems, setCartItems, onCheckout }) => {
                             <p className="dish-title">{dish.name}</p>
 
                             {qty === 0 ? (
-                                <button className="primary-button" onClick={() => updateCart(dish, 1)}>Добавить</button>
+                                <button className="primary-button">Добавить</button>
                             ) : (
                                 <div className="dish-counters">
-                                    <button className="primary-button" onClick={() => updateCart(dish, qty - 1)}>-</button>
+                                    <button className="primary-button" onClick={(e) => {
+                                        e.stopPropagation();
+                                        updateCart(dish, qty - 1)
+                                    }}>-</button>
                                     <span>{qty}</span>
-                                    <button className="primary-button" onClick={() => updateCart(dish, qty + 1)}>+</button>
+                                    <button className="primary-button" onClick={(e) => {
+                                        e.stopPropagation();
+                                        updateCart(dish, qty + 1)
+                                    }}>+</button>
                                 </div>
                             )}
                         </div>
