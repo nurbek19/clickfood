@@ -176,7 +176,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 </div>
             </div>
 
-            {deliveryType === 'delivery' && freeDeliverySum && (
+            {deliveryType === 'delivery' && Boolean(freeDeliverySum) && (
                 <div className="delivery-information">Бесплатная доставка - для заказа от {partner.free_delivery_sum} сом</div>
             )}
 
@@ -184,7 +184,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 <div className="delivery-information">Доставка бесплатная</div>
             )}
 
-            {deliveryType === 'delivery' && fixedPrice && (
+            {deliveryType === 'delivery' && Boolean(fixedPrice) && (
                 <div className="delivery-information">Фиксированная цена доставки {fixedPrice} сом</div>
             )}
 
