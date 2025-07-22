@@ -134,7 +134,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 ))}
 
                 <div className="total-wrapper">
-                    {deliveryType === 'delivery' && freeDeliverySum && (
+                    {deliveryType === 'delivery' && Boolean(freeDeliverySum) && (
                         freeDeliverySum - total > 0 ? (
                             <div className="free-delivery-sum">До бесплатной доставки {freeDeliverySum - total} сом</div>
                         ) : (
