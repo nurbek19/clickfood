@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Order } from "./Order";
 import { Checkout } from "./Checkout";
 import { api } from "../api";
+import { AddressInput } from "../components/AddressInput";
 
 export const OrderPage = () => {
     const [searchParams] = useSearchParams();
@@ -40,6 +41,8 @@ export const OrderPage = () => {
 
     return (
         <div className="order-page-container">
+            <AddressInput />
+
             {currentPage === "order" && (
                 <Order
                     cartItems={cartItems}

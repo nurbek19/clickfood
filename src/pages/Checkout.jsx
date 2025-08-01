@@ -4,6 +4,7 @@ import WebApp from '@twa-dev/sdk';
 
 import { api } from "../api";
 import "../App.css";
+import { AddressInput } from "../components/AddressInput";
 
 const OPTIONS_LABEL = {
     'delivery': 'Доставка',
@@ -193,17 +194,19 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                     <label htmlFor="delivery-type" className="field-label">Тип заказа</label>
                     <select id="delivery-type" className="select-field" value={deliveryType} onChange={(e) => setDeliveryType(e.target.value)}>
                         <option value="" disabled>Выбрать тип заказа</option>
-                        {partner.delivery_options?.map((obj) => (
+                        {partner?.delivery_options?.map((obj) => (
                             <option key={obj.option} value={obj.option}>{OPTIONS_LABEL[obj.option]}</option>
                         ))}
                     </select>
                 </div>
 
                 {deliveryType === 'delivery' && (
-                    <div className="field-wrapper">
-                        <label htmlFor="address" className="field-label">Адрес</label>
-                        <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
-                    </div>
+                    <AddressInput />
+
+                    // <div className="field-wrapper">
+                    //     <label htmlFor="address" className="field-label">Адрес</label>
+                    //     <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
+                    // </div>
                 )}
 
 

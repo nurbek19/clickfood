@@ -48,7 +48,7 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
             {partner && (
                 <div className="partner-details">
                     <h2>{partner.name}</h2>
-                    <p>{partner.address}</p>
+                    {/* <p>{partner.address}</p> */}
                 </div>
             )}
 

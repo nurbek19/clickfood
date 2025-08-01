@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { api } from "../api";
 
 import "../App.css";
+import { AddressInput } from "../components/AddressInput";
 
 export const PartnerForm = ({ existingPartner = null }) => {
   const [name, setName] = useState('');
@@ -108,10 +109,12 @@ export const PartnerForm = ({ existingPartner = null }) => {
         <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
       </div>
 
-      <div className="field-wrapper">
+      {/* <div className="field-wrapper">
         <label htmlFor="address" className="field-label">Адрес</label>
         <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
-      </div>
+      </div> */}
+
+      <AddressInput />
 
       <div className="field-wrapper">
         <label htmlFor="phone" className="field-label">Контактный номер телефона</label>
