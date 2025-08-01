@@ -15,7 +15,7 @@ const OPTIONS_LABEL = {
 export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     const [searchParams] = useSearchParams();
 
-    const [address, setAddress] = useState("");
+    const [address, setAddress] = useState(null);
     const [phone, setPhone] = useState("");
     const [comment, setComment] = useState("");
     const [deliveryType, setDeliveryType] = useState("");
@@ -201,7 +201,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 </div>
 
                 {deliveryType === 'delivery' && (
-                    <AddressInput />
+                    <AddressInput setAddress={setAddress} />
 
                     // <div className="field-wrapper">
                     //     <label htmlFor="address" className="field-label">Адрес</label>

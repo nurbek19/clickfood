@@ -34,7 +34,7 @@ function isInRadius(centerCoords, radiusMeters, targetCoords) {
 
 const API_KEY = 'f595981b-5f26-4a88-9cc1-b6ffb2f9884d';
 
-export const AddressInput = () => {
+export const AddressInput = ({ setAddress }) => {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -71,6 +71,14 @@ export const AddressInput = () => {
 
     const handleSelect = async (item) => {
         setQuery(item.name);
+        setAddress({
+            city_alias: item?.city_alias,
+            full_name: item?.full_name,
+            point: item?.point,
+            address_name: item?.address_name,
+            region_name: item?.adm_div?.[1]?.name,
+            city_name: item?.adm_div?.[2]?.name,
+        })
     };
 
     return (
@@ -79,7 +87,6 @@ export const AddressInput = () => {
                 <div className="field-label">Адрес</div>
                 <input
                     type="text"
-                    id="address"
                     className="text-field"
                     value={query}
                     onFocus={() => setIsOpen(true)}

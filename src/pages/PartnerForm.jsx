@@ -8,7 +8,7 @@ import { AddressInput } from "../components/AddressInput";
 
 export const PartnerForm = ({ existingPartner = null }) => {
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(null);
   const [phone, setPhone] = useState('');
   const [delivery, setDelivery] = useState(true);
   const [selfDrive, setSelfDrive] = useState(true);
@@ -21,7 +21,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   useEffect(() => {
     if (existingPartner) {
       setName(existingPartner.name || '');
-      setAddress(existingPartner.address || '');
+      setAddress(existingPartner.address || null);
       setPhone(existingPartner.contact || '');
       setFreeDeliverySum(existingPartner.free_delivery_sum || 0)
 
@@ -114,7 +114,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
       </div> */}
 
-      <AddressInput />
+      <AddressInput setAddress={setAddress} />
 
       <div className="field-wrapper">
         <label htmlFor="phone" className="field-label">Контактный номер телефона</label>

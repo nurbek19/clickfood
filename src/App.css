@@ -574,11 +574,11 @@
 
     position: absolute;
     left: 0;
-    top: 80px;
+    top: 65px;
 
     width: 100%;
     height: auto;
-    max-height: 280px;
+    max-height: 116px;
     margin: 0;
     padding: 4px 12px;
     border-radius: 8px;
@@ -605,7 +605,7 @@
   .clear-button {
     position: absolute;
     right: 10px;
-    top: 30px;
+    top: 32px;
 
     background: none;
     padding: 0;
