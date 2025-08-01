@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import distance from '@turf/distance';
 // import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import { point } from "@turf/helpers";
+import '../App.css';
 
 function isInRadius(centerCoords, radiusMeters, targetCoords) {
     const from = point(centerCoords)

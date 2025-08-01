@@ -615,3 +615,34 @@
   .clear-button svg {
     width: 16px;
   }
+
+  .remove-zone-button {
+    background: none;
+    padding: 0;
+    border: none;
+  }
+
+  .remove-zone-button svg {
+    width: 14px;
+  }
+
+  .zone {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 10px;
+  }
+
+  .zone .text-field {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  .radius-price-form {
+    padding-bottom: 20px;
+  }
+
+  .radius-price-form .secondary-button {
+    width: auto;
+    padding: 5px;
+  }

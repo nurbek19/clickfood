@@ -5,6 +5,7 @@ import { api } from "../api";
 
 import "../App.css";
 import { AddressInput } from "../components/AddressInput";
+import { RadiusZonesForm } from "../components/RadiusZonesForm";
 
 export const PartnerForm = ({ existingPartner = null }) => {
   const [name, setName] = useState('');
@@ -16,6 +17,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [freeDeliverySum, setFreeDeliverySum] = useState(0);
   const [photoId, setPhotoId] = useState('');
+  const [zones, setZones] = useState([]);
 
   // Заполняем данные при редактировании
   useEffect(() => {
@@ -55,7 +57,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
       contact: phone,
       delivery_options,
       photo: photoId,
-      free_delivery_sum: parseInt(freeDeliverySum)
+      free_delivery_sum: parseInt(freeDeliverySum),
+      radius_zones: []
     }));
   }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId]);
 
@@ -153,7 +156,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         </label>
       </div>
 
-      {delivery && (
+      {/* {delivery && (
         <div className="field-wrapper">
           <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
           <input
@@ -164,7 +167,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
             onChange={(e) => setDeliveryCost(e.target.value)}
           />
         </div>
-      )}
+      )} */}
+
+    <RadiusZonesForm zones={zones} setZones={setZones} />
 
       <div className="field-wrapper">
         <label htmlFor="free-delivery-sum" className="field-label">Сумма для бесплатной доставки</label>
