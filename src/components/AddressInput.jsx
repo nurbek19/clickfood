@@ -34,7 +34,7 @@ function isInRadius(centerCoords, radiusMeters, targetCoords) {
 
 const API_KEY = 'f595981b-5f26-4a88-9cc1-b6ffb2f9884d';
 
-export const AddressInput = ({ setAddress }) => {
+export const AddressInput = ({ address, setAddress }) => {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +45,12 @@ export const AddressInput = ({ setAddress }) => {
             setSuggestions([]);
         }
     }, [query]);
+
+    useEffect(() => {
+        if (address) {
+            setQuery(address.address_name);
+        }
+    }, [address]);
 
     const fetchSuggestions = async (text) => {
         if (!text) return;

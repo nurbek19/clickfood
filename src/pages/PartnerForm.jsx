@@ -114,7 +114,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
       </div> */}
 
-      <AddressInput setAddress={setAddress} />
+      <AddressInput address={address} setAddress={setAddress} />
 
       <div className="field-wrapper">
         <label htmlFor="phone" className="field-label">Контактный номер телефона</label>
