@@ -18,6 +18,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
 
     const [address, setAddress] = useState(null);
     const [phone, setPhone] = useState("");
+    const [username, setUsername] = useState('');
     const [comment, setComment] = useState("");
     const [deliveryType, setDeliveryType] = useState("");
     const [freeDeliverySum, setFreeDeliverySum] = useState(0);
@@ -50,6 +51,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
         const orderData = {
             foods,
             address,
+            user_name: username,
             phone,
             comment,
             delivery_option: deliveryType,
@@ -82,15 +84,15 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
         return () => {
             WebApp.offEvent('mainButtonClicked', handleSubmit);
         };
-    }, [cartItems, address, phone, comment, deliveryType]);
+    }, [cartItems, address, username, phone, comment, deliveryType]);
 
     const isValid = useMemo(() => {
         if (deliveryType === 'delivery') {
             return cartItems.length && phone && deliveryType && address;
         }
 
-        return cartItems.length && phone && deliveryType;
-    }, [cartItems, address, phone, deliveryType]);
+        return cartItems.length && username && phone && deliveryType;
+    }, [cartItems, address, phone, username, deliveryType]);
 
     useEffect(() => {
         WebApp.MainButton.text = `Оплатить - ${total} сом`;
@@ -209,6 +211,10 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                     <AddressInput setAddress={setAddress} />
                 )}
 
+                <div className="field-wrapper">
+                    <label htmlFor="name" className="field-label">Имя</label>
+                    <input type="text" id="name" className="text-field" value={username} onChange={(e) => setUsername(e.target.value)} />
+                </div>
 
                 <div className="field-wrapper">
                     <label htmlFor="phone" className="field-label">Номер телефона</label>
