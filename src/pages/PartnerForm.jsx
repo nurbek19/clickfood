@@ -158,19 +158,19 @@ export const PartnerForm = ({ existingPartner = null }) => {
       </div>
 
       {delivery && (
-        <div className="field-wrapper">
-          <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
-          <input
-            type="number"
-            id="delivery-price"
-            className="text-field"
-            value={deliveryCost}
-            onChange={(e) => setDeliveryCost(e.target.value)}
-          />
-        </div>
-      )}
+        // <div className="field-wrapper">
+        //   <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
+        //   <input
+        //     type="number"
+        //     id="delivery-price"
+        //     className="text-field"
+        //     value={deliveryCost}
+        //     onChange={(e) => setDeliveryCost(e.target.value)}
+        //   />
+        // </div>
 
-    <RadiusZonesForm zones={zones} setZones={setZones} />
+        <RadiusZonesForm zones={zones} setZones={setZones} />
+      )}
 
       <div className="field-wrapper">
         <label htmlFor="free-delivery-sum" className="field-label">Сумма для бесплатной доставки</label>
