@@ -26,6 +26,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       setAddress(existingPartner.address || null);
       setPhone(existingPartner.contact || '');
       setFreeDeliverySum(existingPartner.free_delivery_sum || 0)
+      setZones(existingPartner.radius_zones || []);
 
       const opts = existingPartner.delivery_options || [];
       setDelivery(opts.some(o => o.option === "delivery"));
@@ -58,15 +59,15 @@ export const PartnerForm = ({ existingPartner = null }) => {
       delivery_options,
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
-      radius_zones: []
+      radius_zones: zones
     }));
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId, zones]);
 
   // Кнопка Telegram
   useEffect(() => {
     WebApp.MainButton.setText(existingPartner ? "Сохранить" : "Создать");
 
-    if (name && address && phone) {
+    if (name && address && phone && address) {
       WebApp.MainButton.show();
     } else {
       WebApp.MainButton.hide();
@@ -76,7 +77,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
     return () => {
       WebApp.offEvent("mainButtonClicked", sendData);
     };
-  }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId]);
+  }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId, zones]);
 
   // Загрузка фото
   const onDrop = useCallback(async (acceptedFiles) => {
@@ -156,7 +157,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         </label>
       </div>
 
-      {/* {delivery && (
+      {delivery && (
         <div className="field-wrapper">
           <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
           <input
@@ -167,7 +168,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
             onChange={(e) => setDeliveryCost(e.target.value)}
           />
         </div>
-      )} */}
+      )}
 
     <RadiusZonesForm zones={zones} setZones={setZones} />
 

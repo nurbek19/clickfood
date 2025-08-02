@@ -47,8 +47,6 @@ export const RadiusZonesForm = ({ zones = [], setZones }) => {
             ))}
 
             <button className="secondary-button" onClick={handleAddZone}>Добавить зону</button>
-
-            {/* <pre>{JSON.stringify(zones, null, 2)}</pre> */}
         </div>
     );
 }
