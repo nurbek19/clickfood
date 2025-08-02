@@ -541,13 +541,22 @@
     padding-top: 20px;
   }
 
-  .delivery-information {
+  .delivery-information,
+  .delivery-not-available {
     font-size: 12px;
-    color: #3E5F44;
     padding: 8px;
     margin-top: 10px;
     border-radius: 8px;
+  }
+
+  .delivery-information {
+    color: #3E5F44;
     background-color: #93DA97;
+  }
+
+  .delivery-not-available {
+    background-color: #DC3C22;
+    color: #EAC8A6;
   }
 
   .free-delivery-sum {
@@ -570,7 +579,7 @@
 
   .suggestions-list {
     background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #eee; */
+    background-color: #eee;
 
     position: absolute;
     left: 0;

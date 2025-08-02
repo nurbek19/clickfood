@@ -5,6 +5,7 @@ import WebApp from '@twa-dev/sdk';
 import { api } from "../api";
 import "../App.css";
 import { AddressInput } from "../components/AddressInput";
+import { checkDeliveryZones } from "../components/AddressInput";
 
 const OPTIONS_LABEL = {
     'delivery': 'Доставка',
@@ -20,20 +21,11 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     const [comment, setComment] = useState("");
     const [deliveryType, setDeliveryType] = useState("");
     const [freeDeliverySum, setFreeDeliverySum] = useState(0);
-    const [fixedPrice, setFixedPrice] = useState(0);
-    const [isFreeDelivery, setIsFreeDelivery] = useState(false);
+    const [deliveryPrice, setDeliveryPrice] = useState(null);
 
     useEffect(() => {
         if (partner?.free_delivery_sum !== 0) {
             setFreeDeliverySum(partner.free_delivery_sum)
-        }
-
-        const deliveryOption = partner?.delivery_options?.find((o) => o.option === 'delivery');
-
-        if (deliveryOption?.price !== 0) {
-            setFixedPrice(deliveryOption.price);
-        } else {
-            setIsFreeDelivery(true);
         }
 
     }, [partner]);
@@ -111,6 +103,23 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
         }
     }, [isValid, total]);
 
+    const isNotAvailableZone = useMemo(() => {
+        if (address && partner) {
+            const zoneObj = checkDeliveryZones(
+                [address.point.lat, address.point.lon], partner.radius_zones, [partner.address.point.lat, partner.address.point.lon]
+            );
+
+            if (zoneObj.inZone) {
+                setDeliveryPrice(zoneObj.price);
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }, [address, partner]);
+
     return (
         <div className="checkout-page">
             <button className="back-button" onClick={onBack}>« Назад</button>
@@ -150,24 +159,24 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                             {freeDeliverySum ? (
                                 <p>
                                     {freeDeliverySum - total > 0 ? (
-                                        `Доставка: ${fixedPrice} сом`
+                                        Boolean(deliveryPrice) ? <p>Доставка: {deliveryPrice} сом</p> : null
                                     ) : (
                                         'Доставка: 0 сом'
                                     )}
                                 </p>
                             ) : (
-                                <p>Доставка: {isFreeDelivery ? 0 : fixedPrice} сом</p>
+                                Boolean(deliveryPrice) ? <p>Доставка: {deliveryPrice} сом</p> : null
                             )}
 
                             <strong>
                                 Итого: {freeDeliverySum ? (
                                     freeDeliverySum - total > 0 ? (
-                                        total + fixedPrice
+                                        Boolean(deliveryPrice) ? total + deliveryPrice : total
                                     ) : (
                                         total
                                     )
                                 ) : (
-                                    isFreeDelivery ? total : (total + fixedPrice)
+                                    Boolean(deliveryPrice) ? total + deliveryPrice : total
                                 )} сом
                             </strong>
                         </div>
@@ -181,12 +190,8 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 <div className="delivery-information">Бесплатная доставка - для заказа от {partner.free_delivery_sum} сом</div>
             )}
 
-            {deliveryType === 'delivery' && isFreeDelivery && (
-                <div className="delivery-information">Доставка бесплатная</div>
-            )}
-
-            {deliveryType === 'delivery' && Boolean(fixedPrice) && (
-                <div className="delivery-information">Фиксированная цена доставки {fixedPrice} сом</div>
+            {isNotAvailableZone && (
+                <div className="delivery-not-available">Извините не можем доставить в ваш адрес</div>
             )}
 
             <div className="form-wrapper">
@@ -202,11 +207,6 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
 
                 {deliveryType === 'delivery' && (
                     <AddressInput setAddress={setAddress} />
-
-                    // <div className="field-wrapper">
-                    //     <label htmlFor="address" className="field-label">Адрес</label>
-                    //     <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
-                    // </div>
                 )}
 
 

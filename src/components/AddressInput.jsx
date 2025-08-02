@@ -20,17 +20,17 @@ function isInRadius(centerCoords, radiusMeters, targetCoords) {
 //     });
 // }
 
-// function checkDeliveryZones(userCoords, deliveryZones) {
-//     const inRadius = deliveryZones.radiusZones.find(zone =>
-//         isInRadius(zone.center, zone.radius, userCoords)
-//     );
-//     if (inRadius) return { inZone: true, price: inRadius.price };
+export function checkDeliveryZones(userCoords, deliveryZones, center) {
+    const inRadius = deliveryZones.find(zone =>
+        isInRadius(center, zone.radius, userCoords)
+    );
+    if (inRadius) return { inZone: true, price: inRadius.price };
 
-//     const inPolygon = isInPolygon(userCoords, deliveryZones.polygons);
-//     if (inPolygon) return { inZone: true, price: inPolygon.price };
+    // const inPolygon = isInPolygon(userCoords, deliveryZones.polygons);
+    // if (inPolygon) return { inZone: true, price: inPolygon.price };
 
-//     return { inZone: false };
-// }
+    return { inZone: false };
+}
 
 
 const API_KEY = 'f595981b-5f26-4a88-9cc1-b6ffb2f9884d';
