@@ -579,7 +579,7 @@
 
   .suggestions-list {
     background-color: var(--tg-theme-secondary-bg-color);
-    background-color: #eee;
+    /* background-color: #eee; */
 
     position: absolute;
     left: 0;
