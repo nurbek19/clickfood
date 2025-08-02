@@ -14,7 +14,6 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const [delivery, setDelivery] = useState(true);
   const [selfDrive, setSelfDrive] = useState(true);
   const [preorder, setPreorder] = useState(false);
-  const [deliveryCost, setDeliveryCost] = useState(0);
   const [freeDeliverySum, setFreeDeliverySum] = useState(0);
   const [photoId, setPhotoId] = useState('');
   const [zones, setZones] = useState([]);
@@ -29,12 +28,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
       setZones(existingPartner.radius_zones || []);
 
       const opts = existingPartner.delivery_options || [];
-      setDelivery(opts.some(o => o.option === "delivery"));
-      setSelfDrive(opts.some(o => o.option === "self_drive"));
-      setPreorder(opts.some(o => o.option === "preorder"));
-
-      const deliveryOption = opts.find(o => o.option === "delivery");
-      setDeliveryCost(deliveryOption?.price || 0);
+      setDelivery(opts.some(o => o === "delivery"));
+      setSelfDrive(opts.some(o => o === "self_drive"));
+      setPreorder(opts.some(o => o === "preorder"));
 
       setPhotoId(existingPartner.photo || '');
     }
@@ -44,12 +40,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const sendData = useCallback(() => {
     const delivery_options = [];
 
-    if (delivery) {
-      delivery_options.push({ option: "delivery", price: parseInt(deliveryCost) });
-    }
-
-    if (selfDrive) delivery_options.push({ option: "self_drive" });
-    if (preorder) delivery_options.push({ option: "preorder" });
+    if (delivery) delivery_options.push("delivery");
+    if (selfDrive) delivery_options.push("self_drive");
+    if (preorder) delivery_options.push("preorder");
 
     WebApp.sendData(JSON.stringify({
       _id: existingPartner?._id,
@@ -61,7 +54,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       free_delivery_sum: parseInt(freeDeliverySum),
       radius_zones: zones
     }));
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId, zones]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
 
   // Кнопка Telegram
   useEffect(() => {
@@ -77,7 +70,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
     return () => {
       WebApp.offEvent("mainButtonClicked", sendData);
     };
-  }, [name, address, phone, delivery, selfDrive, preorder, deliveryCost, freeDeliverySum, photoId, zones]);
+  }, [name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
 
   // Загрузка фото
   const onDrop = useCallback(async (acceptedFiles) => {
@@ -112,11 +105,6 @@ export const PartnerForm = ({ existingPartner = null }) => {
         <label htmlFor="name" className="field-label">Название</label>
         <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
       </div>
-
-      {/* <div className="field-wrapper">
-        <label htmlFor="address" className="field-label">Адрес</label>
-        <input type="text" id="address" className="text-field" value={address} onChange={(e) => setAddress(e.target.value)} />
-      </div> */}
 
       <AddressInput address={address} setAddress={setAddress} />
 
@@ -158,17 +146,6 @@ export const PartnerForm = ({ existingPartner = null }) => {
       </div>
 
       {delivery && (
-        // <div className="field-wrapper">
-        //   <label htmlFor="delivery-price" className="field-label">Стоимость доставки</label>
-        //   <input
-        //     type="number"
-        //     id="delivery-price"
-        //     className="text-field"
-        //     value={deliveryCost}
-        //     onChange={(e) => setDeliveryCost(e.target.value)}
-        //   />
-        // </div>
-
         <RadiusZonesForm zones={zones} setZones={setZones} />
       )}
 

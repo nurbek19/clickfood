@@ -201,8 +201,8 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                     <label htmlFor="delivery-type" className="field-label">Тип заказа</label>
                     <select id="delivery-type" className="select-field" value={deliveryType} onChange={(e) => setDeliveryType(e.target.value)}>
                         <option value="" disabled>Выбрать тип заказа</option>
-                        {partner?.delivery_options?.map((obj) => (
-                            <option key={obj.option} value={obj.option}>{OPTIONS_LABEL[obj.option]}</option>
+                        {partner?.delivery_options?.map((option) => (
+                            <option key={option} value={option}>{OPTIONS_LABEL[option]}</option>
                         ))}
                     </select>
                 </div>
