@@ -108,7 +108,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     const isNotAvailableZone = useMemo(() => {
         if (address && partner) {
             const zoneObj = checkDeliveryZones(
-                [address.point.lat, address.point.lon], partner.radius_zones, [partner.address.point.lat, partner.address.point.lon]
+                [address.point.lon, address.point.lat], partner.radius_zones, [partner.address.point.lon, partner.address.point.lat]
             );
 
             if (zoneObj.inZone) {

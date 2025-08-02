@@ -5,10 +5,13 @@ import { point } from "@turf/helpers";
 import '../App.css';
 
 function isInRadius(centerCoords, radiusMeters, targetCoords) {
-    const from = point(centerCoords)
-    const to = point(targetCoords)
+    const from = point(centerCoords);
+    const to = point(targetCoords);
 
     const dist = distance(from, to, { units: 'meters' }) // можно указать "kilometers", "miles" и т.д.
+
+    console.log(dist);
+    
 
     return dist <= radiusMeters
 }
