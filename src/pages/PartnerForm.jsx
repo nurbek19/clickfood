@@ -72,6 +72,12 @@ export const PartnerForm = ({ existingPartner = null }) => {
     if (!existingPartner) {
       return name && address && phone;
     } else {
+      const delivery_options = [];
+
+      if (delivery) delivery_options.push("delivery");
+      if (selfDrive) delivery_options.push("self_drive");
+      if (preorder) delivery_options.push("preorder");
+
       return !deepEqual(existingPartner, {
         _id: existingPartner._id,
         name,
