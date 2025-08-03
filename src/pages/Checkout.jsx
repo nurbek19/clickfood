@@ -108,6 +108,10 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
 
     const isValid = useMemo(() => {
         if (deliveryType === 'delivery') {
+            if (isNotAvailableZone) {
+                alert('Извините ваш адрес не входит в зону доставки.')
+            }
+
             return cartItems.length && phone && deliveryType && address && username && !isNotAvailableZone;
         }
 
