@@ -1,6 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import WebApp from "@twa-dev/sdk";
 import { useDropzone } from "react-dropzone";
+import deepEqual from 'deep-equal';
 import { api } from "../api";
 
 import "../App.css";
@@ -67,11 +68,28 @@ export const PartnerForm = ({ existingPartner = null }) => {
     // });
   }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
 
+  const isChanged = useMemo(() => {
+    if (!existingPartner) {
+      return name && address && phone;
+    } else {
+      return !deepEqual(existingPartner, {
+        _id: existingPartner._id,
+        name,
+        address,
+        contact: phone,
+        delivery_options,
+        photo: photoId,
+        free_delivery_sum: parseInt(freeDeliverySum),
+        radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
+      });
+    }
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
+
   // Кнопка Telegram
   useEffect(() => {
     WebApp.MainButton.setText(existingPartner ? "Сохранить" : "Создать");
 
-    if (name && address && phone && address) {
+    if (name && address && phone) {
       WebApp.MainButton.show();
     } else {
       WebApp.MainButton.hide();
