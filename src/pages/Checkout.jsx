@@ -6,6 +6,7 @@ import { api } from "../api";
 import "../App.css";
 import { AddressInput } from "../components/AddressInput";
 import { checkDeliveryZones } from "../components/AddressInput";
+import { CutleryCounter } from "../components/CutleryCounter";
 
 const OPTIONS_LABEL = {
     'delivery': 'Доставка',
@@ -23,6 +24,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     const [deliveryType, setDeliveryType] = useState("");
     const [freeDeliverySum, setFreeDeliverySum] = useState(0);
     const [deliveryPrice, setDeliveryPrice] = useState(null);
+    const [cutleryCount, setCutleryCount] = useState(1);
 
     useEffect(() => {
         if (partner?.free_delivery_sum !== 0) {
@@ -55,6 +57,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
             phone,
             comment,
             delivery_option: deliveryType,
+            fork_count: cutleryCount,
             user_id: parseInt(searchParams.get('chat_id')),
             partner_id: parseInt(searchParams.get('partner_id'))
         };
@@ -84,7 +87,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
         return () => {
             WebApp.offEvent('mainButtonClicked', handleSubmit);
         };
-    }, [cartItems, address, username, phone, comment, deliveryType]);
+    }, [cartItems, address, username, phone, comment, deliveryType, cutleryCount]);
 
     const isValid = useMemo(() => {
         if (deliveryType === 'delivery') {
@@ -208,7 +211,10 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 </div>
 
                 {deliveryType === 'delivery' && (
-                    <AddressInput setAddress={setAddress} />
+                    <>
+                        <AddressInput setAddress={setAddress} />
+                        <CutleryCounter count={cutleryCount} setCount={setCutleryCount} />
+                    </>
                 )}
 
                 <div className="field-wrapper">

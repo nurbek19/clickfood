@@ -440,7 +440,7 @@
     transform: translateX(-50%) !important;
     background-color: var(--tg-theme-button-color);
     /* background-color: blue; */
-  
+
     font-size: 18px;
     color: var(--tg-theme-button-text-color);
   }
@@ -654,4 +654,45 @@
   .radius-price-form .secondary-button {
     width: auto;
     padding: 5px;
+  }
+
+  .cutlery-count {
+    padding-bottom: 20px;
+  }
+
+  .cutlery-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cutlery-buttons {
+    background-color: var(--tg-theme-secondary-bg-color);
+    /* background-color: #eee; */
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    padding: 4px 12px;
+  }
+
+  .cutlery-svg {
+    width: 20px;
+  }
+
+  .cutlery-buttons button {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+  }
+
+  .cutlery-buttons button svg {
+    width: 16px;
+  }
+
+  .cutlery-buttons span {
+    font-size: 16px;
+    width: 22px;
+    text-align: center;
   }
