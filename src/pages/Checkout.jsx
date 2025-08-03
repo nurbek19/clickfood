@@ -81,33 +81,6 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
         }) //переписать на try catch
     };
 
-    useEffect(() => {
-        WebApp.onEvent('mainButtonClicked', handleSubmit);
-
-        return () => {
-            WebApp.offEvent('mainButtonClicked', handleSubmit);
-        };
-    }, [cartItems, address, username, phone, comment, deliveryType, cutleryCount]);
-
-    const isValid = useMemo(() => {
-        if (deliveryType === 'delivery') {
-            return cartItems.length && phone && deliveryType && address;
-        }
-
-        return cartItems.length && username && phone && deliveryType;
-    }, [cartItems, address, phone, username, deliveryType]);
-
-    useEffect(() => {
-        WebApp.MainButton.text = `Оплатить - ${total} сом`;
-
-        if (isValid) {
-            WebApp.MainButton.show();
-
-        } else {
-            WebApp.MainButton.hide();
-        }
-    }, [isValid, total]);
-
     const isNotAvailableZone = useMemo(() => {
         if (address && partner) {
             const zoneObj = checkDeliveryZones(
@@ -124,6 +97,33 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
 
         return false;
     }, [address, partner]);
+
+    useEffect(() => {
+        WebApp.onEvent('mainButtonClicked', handleSubmit);
+
+        return () => {
+            WebApp.offEvent('mainButtonClicked', handleSubmit);
+        };
+    }, [cartItems, address, username, phone, comment, deliveryType, cutleryCount]);
+
+    const isValid = useMemo(() => {
+        if (deliveryType === 'delivery') {
+            return cartItems.length && phone && deliveryType && address && username && !isNotAvailableZone;
+        }
+
+        return cartItems.length && username && phone && deliveryType;
+    }, [cartItems, address, phone, username, deliveryType, isNotAvailableZone]);
+
+    useEffect(() => {
+        WebApp.MainButton.text = `Оплатить - ${total} сом`;
+
+        if (isValid) {
+            WebApp.MainButton.show();
+
+        } else {
+            WebApp.MainButton.hide();
+        }
+    }, [isValid, total]);
 
     return (
         <div className="checkout-page">

@@ -156,7 +156,7 @@ export const EditDishModal = ({ dish, categories, setCategories, onSave, onCance
         </div>
 
         <div className="edit-buttons">
-          <button onClick={handleSave} className="primary-button">Сохранить</button>
+          <button onClick={handleSave} className="primary-button">Применить изменения</button>
           <button onClick={onCancel} className="secondary-button">Отмена</button>
         </div>
       </div>
