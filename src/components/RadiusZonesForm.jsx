@@ -5,12 +5,12 @@ export const RadiusZonesForm = ({ zones = [], setZones }) => {
 
     const handleChange = (index, field, value) => {
         const updatedZones = [...zones];
-        updatedZones[index][field] = Number(value); // Преобразуем в число
+        updatedZones[index][field] = value;
         setZones(updatedZones);
     };
 
     const handleAddZone = () => {
-        setZones([...zones, { radius: '', price: '' }]);
+        setZones([...zones, { radius: 0, price: 0 }]);
     };
 
     const handleRemoveZone = (index) => {
