@@ -56,16 +56,16 @@ export const PartnerForm = ({ existingPartner = null }) => {
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     }));
 
-    // console.log({
-    //   _id: existingPartner?._id,
-    //   name,
-    //   address,
-    //   contact: phone,
-    //   delivery_options,
-    //   photo: photoId,
-    //   free_delivery_sum: parseInt(freeDeliverySum),
-    //   radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
-    // });
+    console.log(JSON.stringify({
+      _id: existingPartner?._id,
+      name,
+      address,
+      contact: phone,
+      delivery_options,
+      photo: photoId,
+      free_delivery_sum: parseInt(freeDeliverySum),
+      radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
+    }));
   }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
 
   const isChanged = useMemo(() => {
@@ -94,6 +94,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   // Кнопка Telegram
   useEffect(() => {
     WebApp.MainButton.setText(existingPartner ? "Сохранить" : "Создать");
+    console.log('isChanged', isChanged);
 
     if (isChanged) {
       // name && address && phone
