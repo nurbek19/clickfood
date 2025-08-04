@@ -95,7 +95,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
   useEffect(() => {
     WebApp.MainButton.setText(existingPartner ? "Сохранить" : "Создать");
 
-    if (name && address && phone) {
+    if (isChanged) {
+      // name && address && phone
       WebApp.MainButton.show();
     } else {
       WebApp.MainButton.hide();
@@ -105,7 +106,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
     return () => {
       WebApp.offEvent("mainButtonClicked", sendData);
     };
-  }, [name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
+  }, [isChanged]);
 
   // Загрузка фото
   const onDrop = useCallback(async (acceptedFiles) => {
