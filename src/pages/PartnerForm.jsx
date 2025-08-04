@@ -107,15 +107,13 @@ export const PartnerForm = ({ existingPartner = null }) => {
     } else {
       WebApp.MainButton.hide();
     }
-  }, [isChanged]);
 
-  useEffect(() => {
     WebApp.onEvent('mainButtonClicked', sendData);
 
     return () => {
       WebApp.offEvent('mainButtonClicked', sendData);
     };
-  }, [name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
+  }, [isChanged, sendData]);
 
   // Загрузка фото
   const onDrop = useCallback(async (acceptedFiles) => {
