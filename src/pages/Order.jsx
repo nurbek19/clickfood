@@ -69,7 +69,7 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
             </div>
 
             <div className="dish-list">
-                {grouped[dishCategory] && grouped[dishCategory].map(dish => {
+                {grouped[dishCategory] && grouped[dishCategory].filter((d) => !d.active).map(dish => {
                     const qty = getQuantity(dish._id);
                     return (
                         <div className="dish-card" key={dish._id} onClick={() => {

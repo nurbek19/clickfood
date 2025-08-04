@@ -56,7 +56,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     }));
 
-    console.log(JSON.stringify({
+    console.log({
       _id: existingPartner?._id,
       name,
       address,
@@ -65,7 +65,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
-    }));
+    });
   }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
 
   const isChanged = useMemo(() => {
@@ -78,7 +78,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       if (selfDrive) delivery_options.push("self_drive");
       if (preorder) delivery_options.push("preorder");
 
-      return !deepEqual(existingPartner, {
+      return deepEqual(existingPartner, {
         _id: existingPartner._id,
         name,
         address,
