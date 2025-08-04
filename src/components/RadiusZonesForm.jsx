@@ -1,8 +1,6 @@
 import '../App.css';
 
 export const RadiusZonesForm = ({ zones = [], setZones }) => {
-    console.log(zones);
-
     const handleChange = (index, field, value) => {
         const updatedZones = [...zones];
         updatedZones[index][field] = value;

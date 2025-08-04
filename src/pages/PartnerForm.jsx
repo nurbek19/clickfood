@@ -26,7 +26,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       setAddress(existingPartner.address || null);
       setPhone(existingPartner.contact || '');
       setFreeDeliverySum(existingPartner.free_delivery_sum || 0)
-      setZones(existingPartner.radius_zones || []);
+      setZones((existingPartner.radius_zones || []).map(z => ({ ...z })));
 
       const opts = existingPartner.delivery_options || [];
       setDelivery(opts.some(o => o === "delivery"));
@@ -78,7 +78,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
       if (selfDrive) delivery_options.push("self_drive");
       if (preorder) delivery_options.push("preorder");
 
-      return deepEqual(existingPartner, {
+      const { chat_id, ...cleanedPartner } = existingPartner;
+
+      const hasChanges = !deepEqual({
         _id: existingPartner._id,
         name,
         address,
@@ -86,8 +88,11 @@ export const PartnerForm = ({ existingPartner = null }) => {
         delivery_options,
         photo: photoId,
         free_delivery_sum: parseInt(freeDeliverySum),
-        radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
-      });
+        radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
+        preorder_service_charge_rate: 0
+      }, cleanedPartner);
+
+      return hasChanges;
     }
   }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
 
@@ -102,12 +107,15 @@ export const PartnerForm = ({ existingPartner = null }) => {
     } else {
       WebApp.MainButton.hide();
     }
-
-    WebApp.onEvent("mainButtonClicked", sendData);
-    return () => {
-      WebApp.offEvent("mainButtonClicked", sendData);
-    };
   }, [isChanged]);
+
+  useEffect(() => {
+    WebApp.onEvent('mainButtonClicked', sendData);
+
+    return () => {
+      WebApp.offEvent('mainButtonClicked', sendData);
+    };
+  }, [name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
 
   // Загрузка фото
   const onDrop = useCallback(async (acceptedFiles) => {
@@ -210,7 +218,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         )}
       </div>
 
-      {/* <button onClick={sendData}>btn</button> */}
+      {/* {isChanged && <button onClick={sendData}>btn</button>} */}
     </div>
   );
 };
