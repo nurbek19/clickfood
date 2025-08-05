@@ -633,6 +633,7 @@
 
   .remove-zone-button svg {
     width: 14px;
+    fill: var(--tg-theme-text-color);;
   }
 
   .zone {
