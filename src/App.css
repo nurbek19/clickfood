@@ -633,7 +633,7 @@
 
   .remove-zone-button svg {
     width: 14px;
-    fill: var(--tg-theme-text-color);;
+    fill: var(--tg-theme-text-color);
   }
 
   .zone {
@@ -693,6 +693,7 @@
 
   .cutlery-buttons button svg {
     width: 16px;
+    fill: var(--tg-theme-text-color);
   }
 
   .cutlery-buttons span {
