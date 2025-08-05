@@ -623,6 +623,7 @@
 
   .clear-button svg {
     width: 16px;
+    fill: var(--tg-theme-text-color);
   }
 
   .remove-zone-button {
