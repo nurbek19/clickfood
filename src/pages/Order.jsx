@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AnimatedBottomButton from "../components/AnimatedBottomButton";
+// import { Footer } from "../components/Footer";
 
 import "../App.css";
 
@@ -106,6 +107,8 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
                     );
                 })}
             </div>
+
+            {/* <Footer /> */}
 
             <AnimatedBottomButton
                 visible={cartItems.length > 0}
