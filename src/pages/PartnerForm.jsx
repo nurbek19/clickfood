@@ -18,6 +18,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const [freeDeliverySum, setFreeDeliverySum] = useState(0);
   const [photoId, setPhotoId] = useState('');
   const [zones, setZones] = useState([]);
+  const [finikId, setFinikId] = useState('');
 
   // Заполняем данные при редактировании
   useEffect(() => {
@@ -34,6 +35,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       setPreorder(opts.some(o => o === "preorder"));
 
       setPhotoId(existingPartner.photo || '');
+      setFinikId(existingPartner.finik_id || '');
     }
   }, [existingPartner]);
 
@@ -53,6 +55,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       delivery_options,
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
+      finik_id: finikId,
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     }));
 
@@ -64,9 +67,10 @@ export const PartnerForm = ({ existingPartner = null }) => {
       delivery_options,
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
+      finik_id: finikId,
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     });
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, zones]);
 
   const isChanged = useMemo(() => {
     if (!existingPartner) {
@@ -88,13 +92,14 @@ export const PartnerForm = ({ existingPartner = null }) => {
         delivery_options,
         photo: photoId,
         free_delivery_sum: parseInt(freeDeliverySum),
+        finik_id: finikId,
         radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
         preorder_service_charge_rate: 0
       }, cleanedPartner);
 
       return hasChanges;
     }
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, zones]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, zones]);
 
   // Кнопка Telegram
   useEffect(() => {
@@ -214,6 +219,11 @@ export const PartnerForm = ({ existingPartner = null }) => {
             <img src={`https://booklink.pro/cf/photo?id=${photoId}`} alt="company" />
           </div>
         )}
+      </div>
+
+      <div className="field-wrapper">
+        <label htmlFor="finikId" className="field-label">Fink Id (добавляется в случаи когда у партнера есть свой finik счет)</label>
+        <input type="text" id="finikId" className="text-field" value={finikId} onChange={(e) => setFinikId(e.target.value)} />
       </div>
 
       {/* {isChanged && <button onClick={sendData}>btn</button>} */}
