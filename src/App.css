@@ -717,7 +717,11 @@
 
   .work-time-wrapper {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    box-sizing: border-box;
+  }
+
+  .work-time-wrapper > div {
     box-sizing: border-box;
   }
 

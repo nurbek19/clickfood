@@ -20,7 +20,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const [zones, setZones] = useState([]);
   const [finikId, setFinikId] = useState('');
   const [workStartTime, setWorkStartTime] = useState('09:00');
-  const [workEndTime, setWorkEndTime] = useState('18:00');
+  const [workEndTime, setWorkEndTime] = useState('22:00');
 
   // Заполняем данные при редактировании
   useEffect(() => {
@@ -39,7 +39,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       setPhotoId(existingPartner.photo || '');
       setFinikId(existingPartner.finik_id || '');
       setWorkStartTime(existingPartner.work_start_time || '09:00');
-      setWorkEndTime(existingPartner.work_end_time || '18:00');
+      setWorkEndTime(existingPartner.work_end_time || '22:00');
     }
   }, [existingPartner]);
 
