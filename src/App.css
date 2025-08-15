@@ -747,7 +747,7 @@
     left: 0;
     right: 0;
     outline: none;
-    height: fit-content;
+    height: 70%;
   }
 
   .drawer-content-wrapper {
