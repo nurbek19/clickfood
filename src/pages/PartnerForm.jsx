@@ -8,6 +8,14 @@ import "../App.css";
 import { AddressInput } from "../components/AddressInput";
 import { RadiusZonesForm } from "../components/RadiusZonesForm";
 
+// Utility function to convert time string to ISO 8601 UTC format
+const convertTimeToISO = (timeString) => {
+  const today = new Date();
+  const [hours, minutes] = timeString.split(':');
+  const date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), parseInt(hours), parseInt(minutes));
+  return date.toISOString();
+};
+
 export const PartnerForm = ({ existingPartner = null }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState(null);
@@ -38,8 +46,16 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
       setPhotoId(existingPartner.photo || '');
       setFinikId(existingPartner.finik_id || '');
-      setWorkStartTime(existingPartner.work_start_time || '09:00');
-      setWorkEndTime(existingPartner.work_end_time || '22:00');
+      
+      // Handle work time data from work_time object
+      if (existingPartner.work_time?.from && existingPartner.work_time?.to) {
+        const convertISOToTimeString = (isoString) => {
+          const date = new Date(isoString);
+          return date.toTimeString().slice(0, 5); // Get HH:MM format
+        };
+        setWorkStartTime(convertISOToTimeString(existingPartner.work_time.from));
+        setWorkEndTime(convertISOToTimeString(existingPartner.work_time.to));
+      }
     }
   }, [existingPartner]);
 
@@ -51,6 +67,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
     if (selfDrive) delivery_options.push("self_drive");
     if (preorder) delivery_options.push("preorder");
 
+    const workTimeFromISO = convertTimeToISO(workStartTime);
+    const workTimeToISO = convertTimeToISO(workEndTime);
+
     WebApp.sendData(JSON.stringify({
       _id: existingPartner?._id,
       name,
@@ -61,8 +80,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
       work_time: {
-        from: workStartTime,
-        to: workEndTime,
+        from: workTimeFromISO,
+        to: workTimeToISO,
       },
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     }));
@@ -77,8 +96,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
       work_time: {
-        from: workStartTime,
-        to: workEndTime,
+        from: workTimeFromISO,
+        to: workTimeToISO,
       },
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     });
@@ -96,6 +115,9 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
       const { chat_id, ...cleanedPartner } = existingPartner;
 
+      const currentWorkTimeFromISO = convertTimeToISO(workStartTime);
+      const currentWorkTimeToISO = convertTimeToISO(workEndTime);
+
       const hasChanges = !deepEqual({
         _id: existingPartner._id,
         name,
@@ -106,8 +128,25 @@ export const PartnerForm = ({ existingPartner = null }) => {
         free_delivery_sum: parseInt(freeDeliverySum),
         finik_id: finikId,
         work_time: {
-          from: workStartTime,
-          to: workEndTime,
+          from: currentWorkTimeFromISO,
+          to: currentWorkTimeToISO,
+        },
+        radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
+        preorder_service_charge_rate: 0
+      }, cleanedPartner);
+
+      console.log({
+        _id: existingPartner._id,
+        name,
+        address,
+        contact: phone,
+        delivery_options,
+        photo: photoId,
+        free_delivery_sum: parseInt(freeDeliverySum),
+        finik_id: finikId,
+        work_time: {
+          from: currentWorkTimeFromISO,
+          to: currentWorkTimeToISO,
         },
         radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
         preorder_service_charge_rate: 0
