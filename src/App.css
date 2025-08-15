@@ -681,6 +681,7 @@
 
   .cutlery-svg {
     width: 20px;
+    fill: var(--tg-theme-text-color);
   }
 
   .cutlery-buttons button {

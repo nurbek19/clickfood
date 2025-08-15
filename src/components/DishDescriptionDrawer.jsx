@@ -41,7 +41,6 @@ export const DishDescriptionDrawer = ({
 
             {/* Quantity Controls */}
             <div className="quantity-section">
-              {/* <span className="quantity-label">Количество</span> */}
               {quantity === 0 ? (
                 <button
                   className="primary-button add-to-cart-button"
