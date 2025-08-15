@@ -60,8 +60,10 @@ export const PartnerForm = ({ existingPartner = null }) => {
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
-      work_start_time: workStartTime,
-      work_end_time: workEndTime,
+      work_time: {
+        from: workStartTime,
+        to: workEndTime,
+      },
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     }));
 
@@ -74,8 +76,10 @@ export const PartnerForm = ({ existingPartner = null }) => {
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
-      work_start_time: workStartTime,
-      work_end_time: workEndTime,
+      work_time: {
+        from: workStartTime,
+        to: workEndTime,
+      },
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     });
   }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, workStartTime, workEndTime, zones]);
@@ -101,8 +105,10 @@ export const PartnerForm = ({ existingPartner = null }) => {
         photo: photoId,
         free_delivery_sum: parseInt(freeDeliverySum),
         finik_id: finikId,
-        work_start_time: workStartTime,
-        work_end_time: workEndTime,
+        work_time: {
+          from: workStartTime,
+          to: workEndTime,
+        },
         radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
         preorder_service_charge_rate: 0
       }, cleanedPartner);
@@ -203,9 +209,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
         </label>
       </div>
 
-      <div className="field-wrapper">
-        <div className="work-time-wrapper">
-          <div>
+      <div className="work-time-wrapper">
+          <div className="field-wrapper">
             <label htmlFor="work-start-time" className="field-label">Время открытия</label>
             <input
               type="time"
@@ -215,7 +220,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
               onChange={(e) => setWorkStartTime(e.target.value)}
             />
           </div>
-          <div>
+          <div className="field-wrapper">
             <label htmlFor="work-end-time" className="field-label">Время закрытия</label>
             <input
               type="time"
@@ -226,7 +231,6 @@ export const PartnerForm = ({ existingPartner = null }) => {
             />
           </div>
         </div>
-      </div>
 
       {delivery && (
         <RadiusZonesForm zones={zones} setZones={setZones} />
