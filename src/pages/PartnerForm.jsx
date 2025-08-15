@@ -293,7 +293,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         <input type="text" id="finikId" className="text-field" value={finikId} onChange={(e) => setFinikId(e.target.value)} />
       </div>
 
-      {isChanged && <button onClick={sendData}>btn</button>}
+      {/* {isChanged && <button onClick={sendData}>btn</button>} */}
     </div>
   );
 };
