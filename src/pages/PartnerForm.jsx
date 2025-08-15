@@ -204,7 +204,6 @@ export const PartnerForm = ({ existingPartner = null }) => {
       </div>
 
       <div className="field-wrapper">
-        {/* <span className="field-label">Время работы</span> */}
         <div className="work-time-wrapper">
           <div>
             <label htmlFor="work-start-time" className="field-label">Время открытия</label>

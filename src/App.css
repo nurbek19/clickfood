@@ -718,6 +718,7 @@
   .work-time-wrapper {
     display: flex;
     gap: 10px;
+    box-sizing: border-box;
   }
 
   .drawer-overlay {
