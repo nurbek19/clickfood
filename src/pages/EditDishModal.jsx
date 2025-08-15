@@ -134,6 +134,12 @@ export const EditDishModal = ({ dish, categories, setCategories, onSave, onCance
         )}
 
         <div className="field-wrapper">
+          <label htmlFor="description" className="field-label">Описание</label>
+
+          <textarea id="description" rows="6" className="text-field" value={form.description} onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}></textarea>
+        </div>
+
+        <div className="field-wrapper">
           <label className="switch">
             <input type="checkbox" checked={form.active} onChange={(e) => setForm((prev) => ({ ...prev, active: e.target.checked }))} />
             <span className="slider round" />

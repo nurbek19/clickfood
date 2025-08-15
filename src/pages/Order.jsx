@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import AnimatedBottomButton from "../components/AnimatedBottomButton";
+import { DishDescriptionDrawer } from "../components/DishDescriptionDrawer";
 // import { Footer } from "../components/Footer";
 
 import "../App.css";
 
 export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) => {
     const [dishCategory, setDishCategory] = useState('');
+    const [selectedDish, setSelectedDish] = useState(null);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     useEffect(() => {
         setDishCategory(dishes?.[0]?.category ?? '');
@@ -29,6 +32,24 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
                 }
             });
         }
+    };
+
+    const handleDishClick = (dish) => {
+        if (dish.description) {
+            // Если есть описание, открываем drawer
+            setSelectedDish(dish);
+            setIsDrawerOpen(true);
+        } else {
+            // Если нет описания, работаем как раньше
+            const qty = getQuantity(dish._id);
+            if (qty === 0) {
+                updateCart(dish, 1);
+            }
+        }
+    };
+
+    const handleDrawerQuantityChange = (dish, quantity) => {
+        updateCart(dish, quantity);
     };
 
     const getQuantity = (id) => {
@@ -73,11 +94,7 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
                 {grouped[dishCategory] && grouped[dishCategory].filter((d) => !d.active).map(dish => {
                     const qty = getQuantity(dish._id);
                     return (
-                        <div className="dish-card" key={dish._id} onClick={() => {
-                            if (qty === 0) {
-                                updateCart(dish, 1)
-                            }
-                        }}>
+                        <div className="dish-card" key={dish._id} onClick={() => handleDishClick(dish)}>
                             <div className="dish-card-image">
                                 <img src={`https://booklink.pro/cf/photo?id=${dish.photo}`} alt="" />
                             </div>
@@ -114,6 +131,15 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
                 visible={cartItems.length > 0}
                 text={`Оформить заказ – ${total} сом`}
                 onClick={onCheckout}
+            />
+
+            {/* Dish Description Drawer */}
+            <DishDescriptionDrawer
+                isOpen={isDrawerOpen}
+                onClose={() => setIsDrawerOpen(false)}
+                dish={selectedDish}
+                quantity={selectedDish ? getQuantity(selectedDish._id) : 0}
+                onQuantityChange={handleDrawerQuantityChange}
             />
         </div>
     );

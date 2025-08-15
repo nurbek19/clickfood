@@ -10,6 +10,7 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories, setEdit
     price: "",
     weight: "",
     category: "",
+    description: "",
     active: false,
     photo: "",
   });
@@ -89,7 +90,8 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories, setEdit
       price: "",
       weight: "",
       category: "",
-      active: true,
+      description: "",
+      active: false,
       photo: "",
     });
     setNewCategory("");
@@ -177,6 +179,12 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories, setEdit
           />
         </div>
       )}
+
+      <div className="field-wrapper">
+        <label htmlFor="description" className="field-label">Описание</label>
+
+        <textarea id="description" rows="6" className="text-field" value={form.description} onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}></textarea>
+      </div>
 
       <div className="field-wrapper">
         <label className="switch">

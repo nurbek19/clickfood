@@ -19,6 +19,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const [photoId, setPhotoId] = useState('');
   const [zones, setZones] = useState([]);
   const [finikId, setFinikId] = useState('');
+  const [workStartTime, setWorkStartTime] = useState('09:00');
+  const [workEndTime, setWorkEndTime] = useState('18:00');
 
   // Заполняем данные при редактировании
   useEffect(() => {
@@ -36,6 +38,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
       setPhotoId(existingPartner.photo || '');
       setFinikId(existingPartner.finik_id || '');
+      setWorkStartTime(existingPartner.work_start_time || '09:00');
+      setWorkEndTime(existingPartner.work_end_time || '18:00');
     }
   }, [existingPartner]);
 
@@ -56,6 +60,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
+      work_start_time: workStartTime,
+      work_end_time: workEndTime,
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     }));
 
@@ -68,9 +74,11 @@ export const PartnerForm = ({ existingPartner = null }) => {
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
+      work_start_time: workStartTime,
+      work_end_time: workEndTime,
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     });
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, zones]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, workStartTime, workEndTime, zones]);
 
   const isChanged = useMemo(() => {
     if (!existingPartner) {
@@ -93,13 +101,15 @@ export const PartnerForm = ({ existingPartner = null }) => {
         photo: photoId,
         free_delivery_sum: parseInt(freeDeliverySum),
         finik_id: finikId,
+        work_start_time: workStartTime,
+        work_end_time: workEndTime,
         radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
         preorder_service_charge_rate: 0
       }, cleanedPartner);
 
       return hasChanges;
     }
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, zones]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, workStartTime, workEndTime, zones]);
 
   // Кнопка Telegram
   useEffect(() => {
@@ -191,6 +201,32 @@ export const PartnerForm = ({ existingPartner = null }) => {
           <span className="slider round" />
           <span>Доставка</span>
         </label>
+      </div>
+
+      <div className="field-wrapper">
+        {/* <span className="field-label">Время работы</span> */}
+        <div className="work-time-wrapper">
+          <div>
+            <label htmlFor="work-start-time" className="field-label">Время открытия</label>
+            <input
+              type="time"
+              id="work-start-time"
+              className="text-field"
+              value={workStartTime}
+              onChange={(e) => setWorkStartTime(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="work-end-time" className="field-label">Время закрытия</label>
+            <input
+              type="time"
+              id="work-end-time"
+              className="text-field"
+              value={workEndTime}
+              onChange={(e) => setWorkEndTime(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
 
       {delivery && (
