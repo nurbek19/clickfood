@@ -13,7 +13,8 @@ const convertTimeToISO = (timeString) => {
   const today = new Date();
   const [hours, minutes] = timeString.split(':');
   const date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), parseInt(hours), parseInt(minutes));
-  return date.toISOString();
+  // Remove milliseconds to match existing format
+  return date.toISOString().replace(/\.\d{3}Z$/, 'Z');
 };
 
 export const PartnerForm = ({ existingPartner = null }) => {
@@ -118,7 +119,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       const currentWorkTimeFromISO = convertTimeToISO(workStartTime);
       const currentWorkTimeToISO = convertTimeToISO(workEndTime);
 
-      const hasChanges = !deepEqual({
+      const currentData = {
         _id: existingPartner._id,
         name,
         address,
@@ -133,24 +134,13 @@ export const PartnerForm = ({ existingPartner = null }) => {
         },
         radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
         preorder_service_charge_rate: 0
-      }, cleanedPartner);
+      };
 
-      console.log({
-        _id: existingPartner._id,
-        name,
-        address,
-        contact: phone,
-        delivery_options,
-        photo: photoId,
-        free_delivery_sum: parseInt(freeDeliverySum),
-        finik_id: finikId,
-        work_time: {
-          from: currentWorkTimeFromISO,
-          to: currentWorkTimeToISO,
-        },
-        radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) })),
-        preorder_service_charge_rate: 0
-      }, cleanedPartner);
+      const hasChanges = !deepEqual(currentData, cleanedPartner);
+
+      // console.log('Current data:', JSON.stringify(currentData, null, 2));
+      // console.log('Cleaned partner:', JSON.stringify(cleanedPartner, null, 2));
+      // console.log('Has changes:', hasChanges);
 
       return hasChanges;
     }
@@ -159,7 +149,6 @@ export const PartnerForm = ({ existingPartner = null }) => {
   // Кнопка Telegram
   useEffect(() => {
     WebApp.MainButton.setText(existingPartner ? "Сохранить" : "Создать");
-    console.log('isChanged', isChanged);
 
     if (isChanged) {
       // name && address && phone
@@ -304,7 +293,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         <input type="text" id="finikId" className="text-field" value={finikId} onChange={(e) => setFinikId(e.target.value)} />
       </div>
 
-      {/* {isChanged && <button onClick={sendData}>btn</button>} */}
+      {isChanged && <button onClick={sendData}>btn</button>}
     </div>
   );
 };
