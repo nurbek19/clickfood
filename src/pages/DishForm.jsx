@@ -183,7 +183,7 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories, setEdit
       <div className="field-wrapper">
         <label htmlFor="description" className="field-label">Описание</label>
 
-        <textarea id="description" rows="6" className="text-field" value={form.description} onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}></textarea>
+        <textarea id="description" rows="3" className="text-field" value={form.description} onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}></textarea>
       </div>
 
       <div className="field-wrapper">
