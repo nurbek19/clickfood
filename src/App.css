@@ -719,6 +719,7 @@
     display: grid;
     grid-template-columns: max-content max-content;
     gap: 15px;
+    box-sizing: border-box;
   }
 
   .drawer-overlay {
