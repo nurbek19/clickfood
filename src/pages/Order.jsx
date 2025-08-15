@@ -35,16 +35,10 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
     };
 
     const handleDishClick = (dish) => {
+        // Only open drawer if dish has description
         if (dish.description) {
-            // Если есть описание, открываем drawer
             setSelectedDish(dish);
             setIsDrawerOpen(true);
-        } else {
-            // Если нет описания, работаем как раньше
-            const qty = getQuantity(dish._id);
-            if (qty === 0) {
-                updateCart(dish, 1);
-            }
         }
     };
 
@@ -106,7 +100,15 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
                             <p className="dish-title">{dish.name}</p>
 
                             {qty === 0 ? (
-                                <button className="primary-button">Добавить</button>
+                                <button 
+                                    className="primary-button" 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        updateCart(dish, 1);
+                                    }}
+                                >
+                                    Добавить
+                                </button>
                             ) : (
                                 <div className="dish-counters">
                                     <button className="primary-button" onClick={(e) => {

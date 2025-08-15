@@ -41,27 +41,35 @@ export const DishDescriptionDrawer = ({
 
             {/* Quantity Controls */}
             <div className="quantity-section">
-              <span className="quantity-label">Количество</span>
-              <div className="dish-counters">
+              {/* <span className="quantity-label">Количество</span> */}
+              {quantity === 0 ? (
                 <button
-                  className="primary-button"
-                  onClick={() => onQuantityChange(dish, quantity - 1)}
-                  disabled={quantity <= 0}
+                  className="primary-button add-to-cart-button"
+                  onClick={() => onQuantityChange(dish, 1)}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                    <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
-                  </svg>
+                  Добавить блюдо
                 </button>
-                <span className="quantity-display">{quantity}</span>
-                <button
-                  className="primary-button"
-                  onClick={() => onQuantityChange(dish, quantity + 1)}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                    <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
-                  </svg>
-                </button>
-              </div>
+              ) : (
+                <div className="drawer-dish-counters">
+                  <button
+                    className="primary-button"
+                    onClick={() => onQuantityChange(dish, quantity - 1)}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+                    </svg>
+                  </button>
+                  <span className="quantity-display">{quantity}</span>
+                  <button
+                    className="primary-button"
+                    onClick={() => onQuantityChange(dish, quantity + 1)}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </Drawer.Content>
