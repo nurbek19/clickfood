@@ -722,6 +722,10 @@
     box-sizing: border-box;
   }
 
+  .work-time-wrapper .field-wrapper:first-child {
+    margin-right: 15px;
+  }
+
   .drawer-overlay {
     position: fixed;
     top: 0;
