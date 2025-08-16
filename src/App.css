@@ -876,3 +876,23 @@
      margin: 0;
   }
 
+  .select-field option[value=""][disabled] {
+    color: var(--tg-theme-subtitle-text-color, #999);
+    font-style: italic;
+  }
+
+  .select-field.select-placeholder {
+    color: var(--tg-theme-subtitle-text-color, #999);
+  }
+
+  .select-wrapper svg {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 18px;
+    fill: var(--tg-theme-text-color, #000000);
+
+    pointer-events: none;
+  }
