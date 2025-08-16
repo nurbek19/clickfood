@@ -1,41 +1,50 @@
-/**
- * Check if a partner is currently working based on their work time schedule
- * @param {Object} workTime - Partner's work time object with 'from' and 'to' properties
- * @returns {boolean} - True if partner is currently working, false otherwise
- */
-export const isPartnerWorking = (workTime) => {
-  if (!workTime || !workTime.from || !workTime.to) {
+export const isPartnerWorking = (partner) => {
+  if (!partner?.work_time?.from || !partner?.work_time?.to) {
+    return true; // If no work time set, assume always working
+  }
+
+  // Parse ISO times to Date objects - they will automatically convert to local timezone
+  const startTime = new Date(partner.work_time.from);
+  const endTime = new Date(partner.work_time.to);
+  const now = new Date();
+
+  // Extract hours and minutes for comparison
+  const currentHours = now.getHours();
+  const currentMinutes = now.getMinutes();
+  const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+
+  const startHours = startTime.getHours();
+  const startMinutes = startTime.getMinutes();
+  const startTimeInMinutes = startHours * 60 + startMinutes;
+
+  const endHours = endTime.getHours();
+  const endMinutes = endTime.getMinutes();
+  const endTimeInMinutes = endHours * 60 + endMinutes;
+
+  console.log('Times in minutes:', {
+    current: currentTimeInMinutes,
+    start: startTimeInMinutes,
+    end: endTimeInMinutes
+  });
+
+  // Handle cases where end time is on the next day
+  if (endTimeInMinutes < startTimeInMinutes) {
+    // If current time is before midnight
+    if (currentTimeInMinutes >= startTimeInMinutes) {
+      // console.log('Case 1: After start time, before midnight');
+      return true;
+    }
+    // If current time is after midnight but before end time
+    if (currentTimeInMinutes <= endTimeInMinutes) {
+      // console.log('Case 2: After midnight, before end time');
+      return true;
+    }
+    // console.log('Case 3: Outside overnight hours');
     return false;
   }
 
-  const now = new Date();
-  const currentTime = now.getHours() * 60 + now.getMinutes(); // Convert to minutes since midnight
-
-  // Parse work start and end times
-  const [startHour, startMinute] = workTime.from.split(':').map(Number);
-  const [endHour, endMinute] = workTime.to.split(':').map(Number);
-  
-  const workStartMinutes = startHour * 60 + startMinute;
-  const workEndMinutes = endHour * 60 + endMinute;
-
-  // Handle cases where work time spans midnight
-  if (workEndMinutes < workStartMinutes) {
-    // Work time spans midnight (e.g., 22:00 to 06:00)
-    return currentTime >= workStartMinutes || currentTime <= workEndMinutes;
-  } else {
-    // Normal work time within same day
-    return currentTime >= workStartMinutes && currentTime <= workEndMinutes;
-  }
-};
-
-/**
- * Get formatted work time string for display
- * @param {Object} workTime - Partner's work time object
- * @returns {string} - Formatted work time string
- */
-export const getFormattedWorkTime = (workTime) => {
-  if (!workTime || !workTime.from || !workTime.to) {
-    return 'Время работы не указано';
-  }
-  return `${workTime.from} - ${workTime.to}`;
+  // Normal case: start and end times are on the same day
+  const isWorking = currentTimeInMinutes >= startTimeInMinutes && currentTimeInMinutes <= endTimeInMinutes;
+  console.log('Normal case:', isWorking);
+  return isWorking;
 };

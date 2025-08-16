@@ -3,6 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import { Order } from "./Order";
 import { Checkout } from "./Checkout";
 import { api } from "../api";
+import { isPartnerWorking } from "../utils/workTimeCheck";
+import { WorkTimeOverlay } from "../components/WorkTimeOverlay";
 
 export const OrderPage = () => {
     const [searchParams] = useSearchParams();
@@ -38,6 +40,10 @@ export const OrderPage = () => {
         fetchPartner();
     }, []);
 
+    const isWorking = partner ? isPartnerWorking(partner) : true;
+
+    console.log(isWorking);
+
     return (
         <div className="order-page-container">
             {currentPage === "order" && (
@@ -57,6 +63,10 @@ export const OrderPage = () => {
                     partner={partner}
                     onBack={() => setCurrentPage("order")}
                 />
+            )}
+
+            {partner && !isWorking && (
+                <WorkTimeOverlay partner={partner} />
             )}
         </div>
     );

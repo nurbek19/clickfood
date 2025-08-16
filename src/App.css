@@ -297,6 +297,26 @@
     background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
     padding: 10px 8px;
     border-radius: 8px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .partner-info {
+    flex: 1;
+  }
+
+  .partner-photo {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .partner-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .categories-container {
@@ -314,6 +334,23 @@
     font-size: 16px;
     font-weight: 400;
     margin: 0;
+  }
+
+  .partner-work-time svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--tg-theme-text-color);
+  }
+
+  .partner-details .partner-work-time {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .partner-details .partner-address {
+    padding-bottom: 4px;
   }
 
   .dish-categories-container {
@@ -836,5 +873,6 @@
 
   .drawer-title,
   .drawer-description {
-    margin: 0;
+     margin: 0;
   }
+
