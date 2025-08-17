@@ -216,7 +216,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
           placeholder="0555 555 555"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          maxLength={10}
+          // maxLength={10}
         />
       </div>
 
