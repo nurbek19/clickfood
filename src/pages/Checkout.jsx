@@ -301,7 +301,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                     <label htmlFor="phone" className="field-label">Номер телефона</label>
                     <input
                         type="tel"
-                        pattern="[0-9]*"
+                        // pattern="[0-9]*"
                         noValidate
                         id="phone"
                         className="text-field"
@@ -309,7 +309,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                         required
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        maxLength={10}
+                        // maxLength={10}
                     />
                 </div>
 
