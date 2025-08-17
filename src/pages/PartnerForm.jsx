@@ -30,6 +30,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
   const [finikId, setFinikId] = useState('');
   const [workStartTime, setWorkStartTime] = useState('09:00');
   const [workEndTime, setWorkEndTime] = useState('22:00');
+  const [useYandexDelivery, setUseYandexDelivery] = useState(false);
 
   // Заполняем данные при редактировании
   useEffect(() => {
@@ -47,7 +48,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
       setPhotoId(existingPartner.photo || '');
       setFinikId(existingPartner.finik_id || '');
-      
+      setUseYandexDelivery(existingPartner.use_yandex_delivery || false);
+
       // Handle work time data from work_time object
       if (existingPartner.work_time?.from && existingPartner.work_time?.to) {
         const convertISOToTimeString = (isoString) => {
@@ -80,6 +82,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
+      use_yandex_delivery: useYandexDelivery,
       work_time: {
         from: workTimeFromISO,
         to: workTimeToISO,
@@ -96,13 +99,14 @@ export const PartnerForm = ({ existingPartner = null }) => {
       photo: photoId,
       free_delivery_sum: parseInt(freeDeliverySum),
       finik_id: finikId,
+      use_yandex_delivery: useYandexDelivery,
       work_time: {
         from: workTimeFromISO,
         to: workTimeToISO,
       },
       radius_zones: zones.map((z) => ({ radius: Number(z.radius), price: Number(z.price) }))
     });
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, workStartTime, workEndTime, zones]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, workStartTime, workEndTime, zones, useYandexDelivery]);
 
   const isChanged = useMemo(() => {
     if (!existingPartner) {
@@ -128,6 +132,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
         photo: photoId,
         free_delivery_sum: parseInt(freeDeliverySum),
         finik_id: finikId,
+        use_yandex_delivery: useYandexDelivery,
         work_time: {
           from: currentWorkTimeFromISO,
           to: currentWorkTimeToISO,
@@ -144,7 +149,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
       return hasChanges;
     }
-  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, workStartTime, workEndTime, zones]);
+  }, [existingPartner, name, address, phone, delivery, selfDrive, preorder, freeDeliverySum, photoId, finikId, workStartTime, workEndTime, zones, useYandexDelivery]);
 
   // Кнопка Telegram
   useEffect(() => {
@@ -238,27 +243,46 @@ export const PartnerForm = ({ existingPartner = null }) => {
       </div>
 
       <div className="work-time-wrapper">
-          <div className="field-wrapper">
-            <label htmlFor="work-start-time" className="field-label">Время открытия</label>
-            <input
-              type="time"
-              id="work-start-time"
-              className="text-field"
-              value={workStartTime}
-              onChange={(e) => setWorkStartTime(e.target.value)}
-            />
-          </div>
-          <div className="field-wrapper">
-            <label htmlFor="work-end-time" className="field-label">Время закрытия</label>
-            <input
-              type="time"
-              id="work-end-time"
-              className="text-field"
-              value={workEndTime}
-              onChange={(e) => setWorkEndTime(e.target.value)}
-            />
-          </div>
+        <div className="field-wrapper">
+          <label htmlFor="work-start-time" className="field-label">Время открытия</label>
+          <input
+            type="time"
+            id="work-start-time"
+            className="text-field"
+            value={workStartTime}
+            onChange={(e) => setWorkStartTime(e.target.value)}
+          />
         </div>
+        <div className="field-wrapper">
+          <label htmlFor="work-end-time" className="field-label">Время закрытия</label>
+          <input
+            type="time"
+            id="work-end-time"
+            className="text-field"
+            value={workEndTime}
+            onChange={(e) => setWorkEndTime(e.target.value)}
+          />
+        </div>
+      </div>
+
+
+      {delivery && (
+        <div className="field-wrapper switch-buttons">
+          <span className="field-label">Настройки доставки</span>
+
+          {/* <label className="switch">
+            <input type="checkbox" checked={delivery} onChange={(e) => setDelivery(e.target.checked)} />
+            <span className="slider round" />
+            <span>Доставка</span>
+          </label> */}
+
+          <label className="switch">
+            <input type="checkbox" checked={useYandexDelivery} onChange={(e) => setUseYandexDelivery(e.target.checked)} />
+            <span className="slider round" />
+            <span>Использовать Яндекс доставку</span>
+          </label>
+        </div>
+      )}
 
       {delivery && (
         <RadiusZonesForm zones={zones} setZones={setZones} />

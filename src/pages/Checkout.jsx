@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import WebApp from '@twa-dev/sdk';
 
@@ -7,6 +7,7 @@ import "../App.css";
 import { AddressInput } from "../components/AddressInput";
 import { checkDeliveryZones } from "../components/AddressInput";
 import { CutleryCounter } from "../components/CutleryCounter";
+import { getDeliveryPrice } from "../utils/deliveryPriceApi";
 
 const OPTIONS_LABEL = {
     'delivery': 'Доставка',
@@ -15,6 +16,7 @@ const OPTIONS_LABEL = {
 }
 
 export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
+    // partner.use_yandex_delivery = true;
     const [searchParams] = useSearchParams();
 
     const [address, setAddress] = useState(null);
@@ -24,6 +26,8 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     const [deliveryType, setDeliveryType] = useState("");
     const [freeDeliverySum, setFreeDeliverySum] = useState(0);
     const [deliveryPrice, setDeliveryPrice] = useState(null);
+    const [apiDeliveryPrice, setApiDeliveryPrice] = useState(null);
+    const [isLoadingDeliveryPrice, setIsLoadingDeliveryPrice] = useState(false);
     const [cutleryCount, setCutleryCount] = useState(1);
 
     useEffect(() => {
@@ -46,6 +50,41 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     };
 
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    // Function to fetch delivery price from API
+    const fetchDeliveryPriceFromApi = useCallback(async () => {
+        if (!partner?.use_yandex_delivery || !address || !partner?.address) {
+            return;
+        }
+
+        setIsLoadingDeliveryPrice(true);
+        try {
+            const priceData = await getDeliveryPrice(partner.address, address);
+            setApiDeliveryPrice(Number(priceData.price) || 0);
+        } catch (error) {
+            console.error('Failed to fetch delivery price:', error);
+            setApiDeliveryPrice(null);
+        } finally {
+            setIsLoadingDeliveryPrice(false);
+        }
+    }, [partner?.use_yandex_delivery, partner?.address, address]);
+
+    // Fetch delivery price when address changes and partner uses API
+    useEffect(() => {
+        if (deliveryType === 'delivery' && partner?.use_yandex_delivery && address) {
+            fetchDeliveryPriceFromApi();
+        } else {
+            setApiDeliveryPrice(null);
+        }
+    }, [address, partner?.use_yandex_delivery, deliveryType, fetchDeliveryPriceFromApi]);
+
+    // Clear delivery price when address is cleared
+    useEffect(() => {
+        if (!address) {
+            setDeliveryPrice(null);
+            setApiDeliveryPrice(null);
+        }
+    }, [address]);
 
     const handleSubmit = () => {
         const foods = cartItems.map((item) => ({ food_id: item._id, count: item.quantity }));
@@ -83,20 +122,39 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
 
     const isNotAvailableZone = useMemo(() => {
         if (address && partner) {
-            const zoneObj = checkDeliveryZones(
-                [address.point.lon, address.point.lat], partner.radius_zones, [partner.address.point.lon, partner.address.point.lat]
-            );
-
-            if (zoneObj.inZone) {
-                setDeliveryPrice(zoneObj.price);
-                return false;
+            // If partner uses API pricing, check if we have a valid price
+            if (partner.use_yandex_delivery) {
+                if (apiDeliveryPrice !== null && apiDeliveryPrice !== undefined) {
+                    setDeliveryPrice(Number(apiDeliveryPrice));
+                    return false;
+                } else if (isLoadingDeliveryPrice) {
+                    // Still loading, don't block checkout
+                    return false;
+                } else {
+                    // API failed or no price available
+                    setDeliveryPrice(null);
+                    return true;
+                }
             } else {
-                return true;
-            }
-        }
+                // Use radius-based pricing (existing logic)
+                const zoneObj = checkDeliveryZones(
+                    [address.point.lon, address.point.lat], partner.radius_zones, [partner.address.point.lon, partner.address.point.lat]
+                );
 
-        return false;
-    }, [address, partner]);
+                if (zoneObj.inZone) {
+                    setDeliveryPrice(zoneObj.price);
+                    return false;
+                } else {
+                    setDeliveryPrice(null);
+                    return true;
+                }
+            }
+        } else {
+            // No address or partner, clear delivery price
+            setDeliveryPrice(null);
+            return false;
+        }
+    }, [address, partner, apiDeliveryPrice, isLoadingDeliveryPrice]);
 
     useEffect(() => {
         WebApp.onEvent('mainButtonClicked', handleSubmit);
@@ -180,12 +238,12 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                             <strong>
                                 Итого: {freeDeliverySum ? (
                                     freeDeliverySum - total > 0 ? (
-                                        Boolean(deliveryPrice) ? total + deliveryPrice : total
+                                        Boolean(deliveryPrice) ? total + Number(deliveryPrice) : total
                                     ) : (
                                         total
                                     )
                                 ) : (
-                                    Boolean(deliveryPrice) ? total + deliveryPrice : total
+                                    Boolean(deliveryPrice) ? total + Number(deliveryPrice) : total
                                 )} сом
                             </strong>
                         </div>
@@ -199,8 +257,12 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                 <div className="delivery-information">Бесплатная доставка - для заказа от {partner.free_delivery_sum} сом</div>
             )}
 
-            {isNotAvailableZone && (
+            {isNotAvailableZone && !isLoadingDeliveryPrice && (
                 <div className="delivery-not-available">Извините не можем доставить в ваш адрес</div>
+            )}
+
+            {isLoadingDeliveryPrice && (
+                <div className="delivery-loading">Загрузка цены доставки...</div>
             )}
 
             <div className="form-wrapper">

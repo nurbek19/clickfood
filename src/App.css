@@ -596,6 +596,16 @@
     color: #EAC8A6;
   }
 
+  .delivery-loading {
+    background-color: #FFA500;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
   .free-delivery-sum {
     font-size: 14px;
     color: #3E5F44;
