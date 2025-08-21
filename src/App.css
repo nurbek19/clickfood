@@ -196,9 +196,19 @@
   }
 
   .partner-form-container,
-  .create-menu-container,
+  .create-menu-container {
+    padding: 15px;
+  }
+
+  .order-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .order-page-container {
-    padding: 5px;
+    flex: 1;
+    padding: 15px;
   }
 
   .loading {
@@ -749,17 +759,6 @@
     font-size: 16px;
     width: 22px;
     text-align: center;
-  }
-
-  footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  footer p {
-    text-align: center;
-    margin: 0;
   }
 
   .work-time-wrapper {

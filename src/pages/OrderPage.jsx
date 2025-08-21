@@ -5,6 +5,7 @@ import { Checkout } from "./Checkout";
 import { api } from "../api";
 import { isPartnerWorking } from "../utils/workTimeCheck";
 import { WorkTimeOverlay } from "../components/WorkTimeOverlay";
+import { Footer } from "../components/Footer";
 
 export const OrderPage = () => {
     const [searchParams] = useSearchParams();
@@ -45,29 +46,32 @@ export const OrderPage = () => {
     console.log(isWorking);
 
     return (
-        <div className="order-page-container">
-            {currentPage === "order" && (
-                <Order
-                    cartItems={cartItems}
-                    setCartItems={setCartItems}
-                    dishes={dishes}
-                    partner={partner}
-                    onCheckout={() => setCurrentPage("checkout")}
-                />
-            )}
+        <div className="order-page-wrapper">
+            <div className="order-page-container">
+                {currentPage === "order" && (
+                    <Order
+                        cartItems={cartItems}
+                        setCartItems={setCartItems}
+                        dishes={dishes}
+                        partner={partner}
+                        onCheckout={() => setCurrentPage("checkout")}
+                    />
+                )}
 
-            {currentPage === "checkout" && (
-                <Checkout
-                    cartItems={cartItems}
-                    setCartItems={setCartItems}
-                    partner={partner}
-                    onBack={() => setCurrentPage("order")}
-                />
-            )}
+                {currentPage === "checkout" && (
+                    <Checkout
+                        cartItems={cartItems}
+                        setCartItems={setCartItems}
+                        partner={partner}
+                        onBack={() => setCurrentPage("order")}
+                    />
+                )}
 
-            {partner && !isWorking && (
-                <WorkTimeOverlay partner={partner} />
-            )}
+                {partner && !isWorking && (
+                    <WorkTimeOverlay partner={partner} />
+                )}
+            </div>
+            <Footer />
         </div>
     );
 };
