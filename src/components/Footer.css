@@ -1,6 +1,6 @@
 footer {
     background-color: var(--tg-theme-bg-color, #f8f9fa);
-    padding: 10px 20px;
+    padding: 20px;
     text-align: center;
     border-top: 1px solid var(--tg-theme-hint-color, #e9ecef);
     margin-top: auto;
