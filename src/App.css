@@ -330,7 +330,11 @@
   }
 
   .categories-container {
+    background-color: var(--tg-theme-bg-color, #ffffff);
+    position: sticky;
+    top: 0;
     padding-top: 20px;
+    padding-bottom: 15px;
   }
 
   .partner-details h2 {
