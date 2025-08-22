@@ -306,10 +306,10 @@ export const PartnerForm = ({ existingPartner = null }) => {
         )}
       </div>
 
-      <div className="field-wrapper">
+      {/* <div className="field-wrapper">
         <label htmlFor="finikId" className="field-label">Fink Id (добавляется в случаи когда у партнера есть свой finik счет)</label>
         <input type="text" id="finikId" className="text-field" value={finikId} onChange={(e) => setFinikId(e.target.value)} />
-      </div>
+      </div> */}
 
       {/* {isChanged && <button onClick={sendData}>btn</button>} */}
     </div>
