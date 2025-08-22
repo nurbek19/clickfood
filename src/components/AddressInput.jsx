@@ -52,7 +52,7 @@ export const AddressInput = ({ address, setAddress }) => {
 
     useEffect(() => {
         if (address) {
-            setQuery(address.address_name);
+            setQuery(address.address_name || address.full_name);
         }
     }, [address]);
 

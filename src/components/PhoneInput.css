@@ -1,0 +1,57 @@
+.phone-input-container {
+  width: 100%;
+}
+
+.phone-input-container .react-tel-input {
+  font-family: inherit;
+}
+
+.phone-input-container .react-tel-input .form-control {
+  background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+  font-size: 18px;
+  color: var(--tg-theme-text-color);
+  width: 100%;
+  height: auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: 0;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  padding-left: 20px;
+}
+
+.phone-input-container .react-tel-input .form-control:focus {
+  outline: none;
+}
+
+.phone-input-container .react-tel-input .form-control:disabled {
+  background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+  color: var(--tg-theme-hint-color);
+  cursor: not-allowed;
+}
+
+/* Hide the flag dropdown completely */
+.phone-input-container .react-tel-input .flag-dropdown {
+  display: none;
+}
+
+/* Custom styling for error state */
+.phone-input-container.error .react-tel-input .form-control {
+  border: 1px solid #ef4444;
+}
+
+.phone-input-container.error .react-tel-input .form-control:focus {
+  border: 1px solid #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Custom styling for success state */
+.phone-input-container.success .react-tel-input .form-control {
+  border: 1px solid #10b981;
+}
+
+.phone-input-container.success .react-tel-input .form-control:focus {
+  border: 1px solid #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}

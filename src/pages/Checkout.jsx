@@ -7,6 +7,7 @@ import "../App.css";
 import { AddressInput } from "../components/AddressInput";
 import { checkDeliveryZones } from "../components/AddressInput";
 import { CutleryCounter } from "../components/CutleryCounter";
+import PhoneInputComponent from "../components/PhoneInput";
 import { getDeliveryPrice } from "../utils/deliveryPriceApi";
 
 const OPTIONS_LABEL = {
@@ -297,21 +298,13 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
                     <input type="text" id="name" className="text-field" placeholder="Руслан" required value={username} onChange={(e) => setUsername(e.target.value)} />
                 </div>
 
-                <div className="field-wrapper">
-                    <label htmlFor="phone" className="field-label">Номер телефона</label>
-                    <input
-                        type="tel"
-                        // pattern="[0-9]*"
-                        noValidate
-                        id="phone"
-                        className="text-field"
-                        placeholder="0555 555 555"
-                        required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        // maxLength={10}
-                    />
-                </div>
+                <PhoneInputComponent
+                    value={phone}
+                    onChange={setPhone}
+                    label="Номер телефона"
+                    placeholder="+996 555 555 555"
+                    required={true}
+                />
 
                 <div className="field-wrapper">
                     <label htmlFor="comment" className="field-label">Комментарий к заведению</label>

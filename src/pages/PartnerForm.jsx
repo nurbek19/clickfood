@@ -7,6 +7,7 @@ import { api } from "../api";
 import "../App.css";
 import { AddressInput } from "../components/AddressInput";
 import { RadiusZonesForm } from "../components/RadiusZonesForm";
+import PhoneInputComponent from "../components/PhoneInput";
 
 // Utility function to convert time string to ISO 8601 UTC format
 const convertTimeToISO = (timeString) => {
@@ -37,7 +38,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
     if (existingPartner) {
       setName(existingPartner.name || '');
       setAddress(existingPartner.address || null);
-      setPhone(existingPartner.contact || '');
+      const phoneNumber = existingPartner.contact || '';
+      setPhone(phoneNumber);
       setFreeDeliverySum(existingPartner.free_delivery_sum || 0)
       setZones((existingPartner.radius_zones || []).map(z => ({ ...z })));
 
@@ -205,20 +207,12 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
       <AddressInput address={address} setAddress={setAddress} />
 
-      <div className="field-wrapper">
-        <label htmlFor="phone" className="field-label">Контактный номер телефона</label>
-        <input
-          type="tel"
-          pattern="[0-9]*"
-          noValidate
-          id="phone"
-          className="text-field"
-          placeholder="0555 555 555"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          // maxLength={10}
-        />
-      </div>
+      <PhoneInputComponent
+        value={phone}
+        onChange={setPhone}
+        label="Контактный номер телефона"
+        placeholder="+996 555 555 555"
+      />
 
       <div className="field-wrapper switch-buttons">
         <span className="field-label">Варианты заказов</span>
