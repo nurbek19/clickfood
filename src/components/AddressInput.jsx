@@ -36,7 +36,7 @@ export function checkDeliveryZones(userCoords, deliveryZones, center) {
 }
 
 
-const API_KEY = 'f595981b-5f26-4a88-9cc1-b6ffb2f9884d';
+const API_KEY = '8b1c812a-28bf-4bf7-97d1-dffeef300b9b';
 
 export const AddressInput = ({ address, setAddress }) => {
     const [query, setQuery] = useState('');
