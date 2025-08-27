@@ -61,7 +61,7 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
         setIsLoadingDeliveryPrice(true);
         try {
             const priceData = await getDeliveryPrice(partner.address, address);
-            setApiDeliveryPrice(Number(priceData.price) || 0);
+            setApiDeliveryPrice(Math.floor(Number(priceData.price)) || 0);
         } catch (error) {
             console.error('Failed to fetch delivery price:', error);
             setApiDeliveryPrice(null);
