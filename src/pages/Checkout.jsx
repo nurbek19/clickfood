@@ -178,7 +178,8 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
     }, [cartItems, address, phone, username, deliveryType, isNotAvailableZone]);
 
     useEffect(() => {
-        WebApp.MainButton.text = `Оплатить - ${total} сом`;
+        // WebApp.MainButton.text = `Оплатить - ${total} сом`;
+        WebApp.MainButton.text = `Оплатить`;
 
         if (isValid) {
             WebApp.MainButton.show();
