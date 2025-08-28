@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import WebApp from '@twa-dev/sdk';
-
+import { Outlet } from "react-router";
+import WebApp from "@twa-dev/sdk";
 
 function App() {
   useEffect(() => {
@@ -12,7 +11,7 @@ function App() {
     <div>
       <Outlet />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

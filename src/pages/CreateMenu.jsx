@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import WebApp from "@twa-dev/sdk";
 import deepEqual from 'deep-equal';
 import { api } from "../api";

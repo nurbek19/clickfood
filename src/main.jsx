@@ -1,17 +1,16 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import WebApp from '@twa-dev/sdk';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import WebApp from "@twa-dev/sdk";
 
-import App from './App.jsx';
-import { CreatePartner } from './pages/CreatePartner.jsx';
-import { CreateMenu } from './pages/CreateMenu.jsx';
-import { OrderPage } from './pages/OrderPage.jsx';
+import { createBrowserRouter, RouterProvider } from "react-router";
+import App from "./App.jsx";
+import { CreatePartner } from "./pages/CreatePartner.jsx";
+import { CreateMenu } from "./pages/CreateMenu.jsx";
+import { OrderPage } from "./pages/OrderPage.jsx";
 
-import './index.css';
+import "./index.css";
 
 WebApp.ready();
-
 
 const router = createBrowserRouter([
   {
@@ -34,8 +33,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
-)
+  </StrictMode>
+);
