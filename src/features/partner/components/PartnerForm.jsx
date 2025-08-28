@@ -2,12 +2,12 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import WebApp from "@twa-dev/sdk";
 import { useDropzone } from "react-dropzone";
 import deepEqual from 'deep-equal';
-import { api } from "../../../shared/api/api";
+import { api } from "@shared/api/api";
 
-import "../../../app/App.css";
-import { AddressInput } from "../../../shared/ui/AddressInput";
+import "@app/App.css";
+import { AddressInput } from "@shared/ui/AddressInput";
 import { RadiusZonesForm } from "./RadiusZonesForm";
-import PhoneInputComponent from "../../../shared/ui/PhoneInput";
+import PhoneInputComponent from "@shared/ui/PhoneInput";
 
 // Utility function to convert time string to ISO 8601 UTC format
 const convertTimeToISO = (timeString) => {

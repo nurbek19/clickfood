@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { api } from "../../../shared/api/api";
+import { api } from "@shared/api/api";
 
 export const EditDishModal = ({ dish, categories, setCategories, onSave, onCancel }) => {
   const [form, setForm] = useState({ ...dish });

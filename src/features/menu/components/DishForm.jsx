@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from 'uuid';
 
-import { api } from "../../../shared/api/api";
+import { api } from "@shared/api/api";
 
 export const DishForm = ({ dishes, setDishes, categories, setCategories, setEditingDish }) => {
   const [form, setForm] = useState({

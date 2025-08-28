@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import AnimatedBottomButton from "./AnimatedBottomButton";
 import { DishDescriptionDrawer } from "./DishDescriptionDrawer";
-// import { Footer } from "../../../shared/ui/Footer";
+// import { Footer } from "@shared/ui/Footer";
 
-import "../../../app/App.css";
+import "@app/App.css";
 
 const formatTime = (isoTime) => {
     if (!isoTime) return '';

@@ -2,13 +2,13 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "react-router";
 import WebApp from '@twa-dev/sdk';
 
-import { api } from "../../../shared/api/api";
-import "../../../app/App.css";
-import { AddressInput } from "../../../shared/ui/AddressInput";
-import { checkDeliveryZones } from "../../../shared/ui/AddressInput";
+import { api } from "@shared/api/api";
+import "@app/App.css";
+import { AddressInput } from "@shared/ui/AddressInput";
+import { checkDeliveryZones } from "@shared/ui/AddressInput";
 import { CutleryCounter } from "./CutleryCounter";
-import PhoneInputComponent from "../../../shared/ui/PhoneInput";
-import { getDeliveryPrice } from "../services/deliveryPriceApi";
+import PhoneInputComponent from "@shared/ui/PhoneInput";
+import { getDeliveryPrice } from "@order/services/deliveryPriceApi";
 
 const OPTIONS_LABEL = {
     'delivery': 'Доставка',
