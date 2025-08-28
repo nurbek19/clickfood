@@ -8,7 +8,7 @@ import { AddressInput } from "@shared/ui/AddressInput";
 import { checkDeliveryZones } from "@shared/ui/AddressInput";
 import { CutleryCounter } from "./CutleryCounter";
 import PhoneInputComponent from "@shared/ui/PhoneInput";
-import { getDeliveryPrice } from "@order/services/deliveryPriceApi";
+import { getDeliveryPrice } from "@order/services/deliveryService";
 
 const OPTIONS_LABEL = {
     'delivery': 'Доставка',
