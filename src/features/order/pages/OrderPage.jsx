@@ -7,7 +7,7 @@ import { isPartnerWorking } from "@shared/utils/workTimeCheck";
 import { WorkTimeOverlay } from "@order/components/WorkTimeOverlay";
 import { Footer } from "@shared/ui/Footer";
 
-export const OrderPage = () => {
+const OrderPage = () => {
   const [searchParams] = useSearchParams();
 
   const [cartItems, setCartItems] = useState([]);
@@ -77,3 +77,5 @@ export const OrderPage = () => {
     </div>
   );
 };
+
+export default OrderPage;

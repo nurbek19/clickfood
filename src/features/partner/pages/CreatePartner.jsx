@@ -4,7 +4,7 @@ import { api } from "@shared/api/api";
 
 import { PartnerForm } from "@partner/components/PartnerForm";
 
-export const CreatePartner = () => {
+const CreatePartner = () => {
     const [searchParams] = useSearchParams();
     const [loading, setLoading] = useState(true);
     const [existingPartner, setExistingPartner] = useState(null);
@@ -38,3 +38,5 @@ export const CreatePartner = () => {
         <PartnerForm existingPartner={existingPartner} />
     )
 }
+
+export default CreatePartner;

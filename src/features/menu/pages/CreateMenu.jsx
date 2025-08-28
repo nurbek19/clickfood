@@ -7,7 +7,7 @@ import { DishForm } from "@menu/components/DishForm";
 import { DishList } from "@menu/components/DishList";
 import { EditDishModal } from "@menu/components/EditDishModal";
 
-export const CreateMenu = () => {
+const CreateMenu = () => {
   const [searchParams] = useSearchParams();
 
   const [dishes, setDishes] = useState([]);
@@ -119,3 +119,5 @@ export const CreateMenu = () => {
     </div>
   );
 };
+
+export default CreateMenu;
