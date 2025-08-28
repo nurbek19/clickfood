@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router";
-import { Order } from "./Order";
-import { Checkout } from "./Checkout";
-import { api } from "../api";
-import { isPartnerWorking } from "../utils/workTimeCheck";
+import { Order } from "../components/Order";
+import { Checkout } from "../components/Checkout";
+import { api } from "../../../shared/api/api";
+import { isPartnerWorking } from "../../../shared/utils/workTimeCheck";
 import { WorkTimeOverlay } from "../components/WorkTimeOverlay";
-import { Footer } from "../components/Footer";
+import { Footer } from "../../../shared/ui/Footer";
 
 export const OrderPage = () => {
   const [searchParams] = useSearchParams();

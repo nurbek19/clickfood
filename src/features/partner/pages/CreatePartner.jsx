@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { api } from "../api";
+import { api } from "../../../shared/api/api";
 
-import { PartnerForm } from "./PartnerForm";
+import { PartnerForm } from "../components/PartnerForm";
 
 export const CreatePartner = () => {
     const [searchParams] = useSearchParams();

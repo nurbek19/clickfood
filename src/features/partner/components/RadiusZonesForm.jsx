@@ -1,4 +1,4 @@
-import '../App.css';
+import '../../../app/App.css';
 
 export const RadiusZonesForm = ({ zones = [], setZones }) => {
     const handleChange = (index, field, value) => {

@@ -1,5 +1,5 @@
 import { Drawer } from 'vaul';
-import '../App.css';
+import '../../../app/App.css';
 
 export const DishDescriptionDrawer = ({
   isOpen,

@@ -1,7 +1,7 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
-import '../App.css';
+import '../../app/App.css';
 
 
 function ImageSlider({ imageIds }) {
