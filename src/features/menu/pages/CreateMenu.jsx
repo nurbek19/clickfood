@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router";
 import WebApp from "@twa-dev/sdk";
 import deepEqual from 'deep-equal';
-import { api } from "@shared/api/api";
+import { getFoods } from "@menu/services/foodsService";
 import { DishForm } from "@menu/components/DishForm";
 import { DishList } from "@menu/components/DishList";
 import { EditDishModal } from "@menu/components/EditDishModal";
@@ -21,13 +21,13 @@ const CreateMenu = () => {
   useEffect(() => {
     const fetchDishes = async () => {
       try {
-        const res = await api.get(`/foods?partner_id=${searchParams.get('chat_id')}`);
-        if (Array.isArray(res.data)) {
-          setDishes(res.data);
-          setOriginalDishes(res.data);
+        const data = await getFoods(searchParams.get('chat_id'));
+        if (Array.isArray(data)) {
+          setDishes(data);
+          setOriginalDishes(data);
 
           const cats = Array.from(
-            new Set(res.data.map((d) => d.category).filter(Boolean))
+            new Set(data.map((d) => d.category).filter(Boolean))
           );
           setCategories(cats);
         }
