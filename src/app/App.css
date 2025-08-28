@@ -218,6 +218,15 @@
     height: 90vh;
   }
 
+  .error-boundary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    padding: 20px;
+    text-align: center;
+  }
+
   .dish-form-upload {
     display: flex;
     flex-direction: column;
