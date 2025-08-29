@@ -1,41 +1,17 @@
-import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { getPartner } from "@partner/services/partnerService";
+import { usePartner } from "@partner/hooks/usePartner";
 
 import { PartnerForm } from "@partner/components/PartnerForm";
 
 const CreatePartner = () => {
     const [searchParams] = useSearchParams();
-    const [loading, setLoading] = useState(true);
-    const [existingPartner, setExistingPartner] = useState(null);
+    const chatId = searchParams.get('chat_id');
+    const { partner, isLoading } = usePartner({ chatId });
 
-
-    useEffect(() => {
-        const loadPartner = async () => {
-            try {
-                const data = await getPartner(searchParams.get('chat_id'));
-                setExistingPartner(data);
-            } catch (error) {
-                const status = error.response?.status;
-
-                if (status === 404 || status === 500) {
-                    // Нет партнёра или ошибка — переходим в режим создания
-                    setExistingPartner(null);
-                } else {
-                    console.error("Неизвестная ошибка при загрузке партнёра", error);
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadPartner();
-    }, [searchParams]);
-
-    if (loading) return <div className="loading">Загрузка...</div>;
+    if (isLoading) return <div className="loading">Загрузка...</div>;
 
     return (
-        <PartnerForm existingPartner={existingPartner} />
+        <PartnerForm existingPartner={partner ?? null} />
     )
 }
 

@@ -15,11 +15,4 @@ export const updatePartner = async (id, changes) => {
   return res.data;
 };
 
-export const upsertPartner = async (partner) => {
-  if (partner && partner._id) {
-    return updatePartner(partner._id, partner);
-  }
-  return createPartner(partner);
-};
-
 

@@ -16,7 +16,9 @@ const OPTIONS_LABEL = {
     'preorder': 'Предзаказ'
 }
 
-export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
+import { useCartStore } from "@order/store/useCartStore";
+
+export const Checkout = ({ partner, onBack }) => {
     // partner.use_yandex_delivery = true;
     const [searchParams] = useSearchParams();
 
@@ -38,17 +40,8 @@ export const Checkout = ({ cartItems, setCartItems, partner, onBack }) => {
 
     }, [partner]);
 
-    const updateQuantity = (id, quantity) => {
-        if (quantity === 0) {
-            setCartItems(prev => prev.filter(item => item._id !== id));
-        } else {
-            setCartItems(prev =>
-                prev.map(item =>
-                    item._id === id ? { ...item, quantity } : item
-                )
-            );
-        }
-    };
+    const cartItems = useCartStore((s) => s.items);
+    const updateQuantity = useCartStore((s) => s.updateQuantity);
 
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 

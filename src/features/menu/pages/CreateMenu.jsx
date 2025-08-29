@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router";
 import WebApp from "@twa-dev/sdk";
 import deepEqual from 'deep-equal';
-import { getFoods } from "@menu/services/foodsService";
+import { useDishes } from "@menu/hooks/useDishes";
 import { DishForm } from "@menu/components/DishForm";
 import { DishList } from "@menu/components/DishList";
 import { EditDishModal } from "@menu/components/EditDishModal";
@@ -10,52 +10,16 @@ import { EditDishModal } from "@menu/components/EditDishModal";
 const CreateMenu = () => {
   const [searchParams] = useSearchParams();
 
-  const [dishes, setDishes] = useState([]);
-  const [originalDishes, setOriginalDishes] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const partnerId = searchParams.get('chat_id');
+  const { dishes, setDishes, categories, setCategories, isChanged, getChangedDishes, refresh } = useDishes({ partnerId });
 
   const [editingDish, setEditingDish] = useState(null);
   const [operation, setOperationType] = useState('create');
 
-  // Загрузка блюд с сервера
-  useEffect(() => {
-    const fetchDishes = async () => {
-      try {
-        const data = await getFoods(searchParams.get('chat_id'));
-        if (Array.isArray(data)) {
-          setDishes(data);
-          setOriginalDishes(data);
-
-          const cats = Array.from(
-            new Set(data.map((d) => d.category).filter(Boolean))
-          );
-          setCategories(cats);
-        }
-      } catch (err) {
-        console.error("Ошибка загрузки блюд", err);
-      }
-    };
-    fetchDishes();
-  }, [searchParams]);
-
   const sendData = useCallback(() => {
-    const changedDishes = dishes.filter(dish => {
-      const initial = originalDishes.find(d => d._id === dish._id);
-      return !initial || !deepEqual(initial, dish);
-    });
-
-    console.log('Changed Dishes:', changedDishes);
+    const changedDishes = getChangedDishes();
     WebApp.sendData(JSON.stringify(changedDishes));
-  }, [dishes, originalDishes]);
-
-  const isChanged = useMemo(() => {
-    const hasChanges = dishes.some((dish) => {
-      const initial = originalDishes.find(d => d._id === dish._id);
-      return !initial || !deepEqual(initial, dish);
-    });
-
-    return hasChanges;
-  }, [dishes, originalDishes]);
+  }, [getChangedDishes]);
 
   useEffect(() => {
     WebApp.MainButton.setText("Обновить меню");

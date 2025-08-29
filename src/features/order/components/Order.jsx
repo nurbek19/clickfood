@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AnimatedBottomButton from "./AnimatedBottomButton";
 import { DishDescriptionDrawer } from "./DishDescriptionDrawer";
 // import { Footer } from "@shared/ui/Footer";
 
 import "@app/App.css";
+import { useCartStore } from "@order/store/useCartStore";
 
 const formatTime = (isoTime) => {
     if (!isoTime) return '';
@@ -18,7 +19,10 @@ const formatTime = (isoTime) => {
     });
 };
 
-export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) => {
+export const Order = ({ dishes, partner, onCheckout }) => {
+    const items = useCartStore((s) => s.items);
+    const addItem = useCartStore((s) => s.addItem);
+    const updateQuantityAction = useCartStore((s) => s.updateQuantity);
     const [dishCategory, setDishCategory] = useState('');
     const [selectedDish, setSelectedDish] = useState(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -28,23 +32,9 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
     }, [dishes]);
 
     const updateCart = (dish, quantity) => {
-        if (quantity <= 0) {
-            // Удаляем из корзины
-            setCartItems(prev => prev.filter(item => item._id !== dish._id));
-        } else {
-            setCartItems(prev => {
-                const exists = prev.find(item => item._id === dish._id);
-                if (exists) {
-                    // Обновляем количество
-                    return prev.map(item =>
-                        item._id === dish._id ? { ...item, quantity } : item
-                    );
-                } else {
-                    // Добавляем новое блюдо (обязательно делаем копию объекта!)
-                    return [...prev, { ...dish, quantity }];
-                }
-            });
-        }
+        if (quantity <= 0) updateQuantityAction(dish._id, 0);
+        else if ((items.find((i) => i._id === dish._id)?.quantity || 0) === 0) addItem(dish, quantity);
+        else updateQuantityAction(dish._id, quantity);
     };
 
     const handleDishClick = (dish) => {
@@ -59,11 +49,9 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
         updateCart(dish, quantity);
     };
 
-    const getQuantity = (id) => {
-        return cartItems.find(item => item._id === id)?.quantity || 0;
-    };
+    const getQuantity = (id) => items.find(item => item._id === id)?.quantity || 0;
 
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = useMemo(() => items.reduce((sum, item) => sum + item.price * item.quantity, 0), [items]);
 
     const grouped = dishes.reduce((acc, dish, index) => {
         const cat = dish.category || "Без категории";
@@ -158,7 +146,7 @@ export const Order = ({ cartItems, setCartItems, dishes, partner, onCheckout }) 
             {/* <Footer /> */}
 
             <AnimatedBottomButton
-                visible={cartItems.length > 0}
+                visible={items.length > 0}
                 text={`Оформить заказ – ${total} сом`}
                 onClick={onCheckout}
             />
