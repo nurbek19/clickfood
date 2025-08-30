@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import WebApp from "@twa-dev/sdk";
 import { useDropzone } from "react-dropzone";
 import deepEqual from 'deep-equal';
-import { api } from "@shared/api/api";
+import httpClient from "@shared/api/httpClient";
 
 import "@app/App.css";
 import { AddressInput } from "@shared/ui/AddressInput";
@@ -178,7 +178,7 @@ export const PartnerForm = ({ existingPartner = null }) => {
     formData.append("photo", file);
 
     try {
-      const response = await api.post("/photo/upload", formData, {
+      const response = await httpClient.post("/photo/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

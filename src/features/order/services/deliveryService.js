@@ -1,8 +1,8 @@
-import { api } from '@shared/api/api';
+import httpClient from '@shared/api/httpClient';
 
 export const getDeliveryPrice = async (fromAddress, toAddress) => {
   try {
-    const response = await api.post('/delivery/check-price', {
+    const response = await httpClient.post('/delivery/check-price', {
       from: fromAddress,
       to: toAddress,
     });

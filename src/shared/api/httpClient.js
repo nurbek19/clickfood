@@ -1,11 +1,11 @@
 import axios from "axios";
 
-export const api = axios.create({
+export const httpClient = axios.create({
   baseURL: 'https://booklink.pro/cf',
   timeout: 10000, // 10s default timeout
 });
 
-api.interceptors.request.use((config) => {
+httpClient.interceptors.request.use((config) => {
   config.headers = config.headers || {};
   config.headers['Accept'] = config.headers['Accept'] || 'application/json';
   config.headers['X-Requested-With'] = config.headers['X-Requested-With'] || 'XMLHttpRequest';
@@ -21,8 +21,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor: normalize errors
-api.interceptors.response.use(
+httpClient.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status ?? null;
@@ -37,7 +36,6 @@ api.interceptors.response.use(
       original: error,
     };
 
-    // Log concise error for debugging (can be replaced with a logger later)
     // eslint-disable-next-line no-console
     console.error('[API]', status ?? 'NETWORK', message);
 
@@ -45,4 +43,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
+export default httpClient;

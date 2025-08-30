@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { api } from "@shared/api/api";
+import httpClient from "@shared/api/httpClient";
 
 export const EditDishModal = ({ dish, categories, setCategories, onSave, onCancel }) => {
   const [form, setForm] = useState({ ...dish });
@@ -13,7 +13,7 @@ export const EditDishModal = ({ dish, categories, setCategories, onSave, onCance
     formData.append("photo", file);
 
     try {
-      const response = await api.post("/photo/upload", formData, {
+      const response = await httpClient.post("/photo/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from 'uuid';
 
-import { api } from "@shared/api/api";
+import httpClient from "@shared/api/httpClient";
 
 export const DishForm = ({ dishes, setDishes, categories, setCategories, setEditingDish }) => {
   const [form, setForm] = useState({
@@ -23,7 +23,7 @@ export const DishForm = ({ dishes, setDishes, categories, setCategories, setEdit
     formData.append("photo", file);
 
     try {
-      const response = await api.post("/photo/upload", formData, {
+      const response = await httpClient.post("/photo/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

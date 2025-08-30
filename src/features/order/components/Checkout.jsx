@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "react-router";
 import WebApp from '@twa-dev/sdk';
 
-import { api } from "@shared/api/api";
+import httpClient from "@shared/api/httpClient";
 import "@app/App.css";
 import { AddressInput } from "@shared/ui/AddressInput";
 import { checkDeliveryZones } from "@shared/ui/AddressInput";
@@ -101,7 +101,7 @@ export const Checkout = ({ partner, onBack }) => {
         // TODO: Отправить на сервер здесь при необходимости
 
         WebApp.MainButton.showProgress();
-        api.post('/order', orderData).then((res) => {
+        httpClient.post('/order', orderData).then((res) => {
             if (res.data) {
                 WebApp.MainButton.hide();
                 WebApp.openLink(res.data.url);
