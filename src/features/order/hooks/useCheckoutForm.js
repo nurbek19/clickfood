@@ -31,7 +31,6 @@ export function useCheckoutForm({ partner }) {
 
   const total = useMemo(() => items.reduce((sum, it) => sum + it.price * it.quantity, 0), [items]);
 
-  // Delivery price via API
   const fetchDeliveryPriceFromApi = useCallback(async () => {
     if (!partner?.use_yandex_delivery || !address || !partner?.address) return;
     setIsLoadingDeliveryPrice(true);
@@ -136,7 +135,6 @@ export function useCheckoutForm({ partner }) {
       });
   }, [items, address, username, phone, comment, deliveryType, cutleryCount, chatId, partnerId]);
 
-  // Telegram MainButton wiring
   useEffect(() => {
     WebApp.MainButton.text = 'Оплатить';
     if (isValid) WebApp.MainButton.show();
