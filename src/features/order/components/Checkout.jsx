@@ -4,10 +4,8 @@ import WebApp from '@twa-dev/sdk';
 
 import httpClient from "@shared/api/httpClient";
 import "@app/App.css";
-import { AddressInput } from "@shared/ui/AddressInput";
-import { checkDeliveryZones } from "@shared/ui/AddressInput";
+import { AddressInput, checkDeliveryZones, PhoneInput as PhoneInputComponent } from "@shared/ui";
 import { CutleryCounter } from "./CutleryCounter";
-import PhoneInputComponent from "@shared/ui/PhoneInput";
 import { getDeliveryPrice } from "@order/services/deliveryService";
 
 const OPTIONS_LABEL = {

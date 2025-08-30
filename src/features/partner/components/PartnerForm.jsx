@@ -5,9 +5,8 @@ import deepEqual from 'deep-equal';
 import httpClient from "@shared/api/httpClient";
 
 import "@app/App.css";
-import { AddressInput } from "@shared/ui/AddressInput";
+import { AddressInput, PhoneInput as PhoneInputComponent } from "@shared/ui";
 import { RadiusZonesForm } from "./RadiusZonesForm";
-import PhoneInputComponent from "@shared/ui/PhoneInput";
 
 // Utility function to convert time string to ISO 8601 UTC format
 const convertTimeToISO = (timeString) => {

@@ -1,11 +1,8 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router";
 import WebApp from "@twa-dev/sdk";
-import deepEqual from 'deep-equal';
 import { useDishes } from "@menu/hooks/useDishes";
-import { DishForm } from "@menu/components/DishForm";
-import { DishList } from "@menu/components/DishList";
-import { EditDishModal } from "@menu/components/EditDishModal";
+import { DishForm, DishList, EditDishModal } from "@menu/components";
 
 const CreateMenu = () => {
   const [searchParams] = useSearchParams();

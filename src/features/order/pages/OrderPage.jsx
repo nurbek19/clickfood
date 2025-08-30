@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router";
-import { Order } from "@order/components/Order";
-import { Checkout } from "@order/components/Checkout";
+import { Order, Checkout } from "@order/components";
 import { WorkTimeOverlay } from "@order/components/WorkTimeOverlay";
-import { Footer } from "@shared/ui/Footer";
+import { Footer } from "@shared/ui";
 import { usePartner } from "@partner/hooks/usePartner";
 import { useDishes } from "@menu/hooks/useDishes";
 
@@ -14,8 +13,6 @@ const OrderPage = () => {
   const partnerId = searchParams.get("partner_id");
   const { partner, isWorking } = usePartner({ chatId: partnerId });
   const { dishes } = useDishes({ partnerId });
-
-  console.log(isWorking);
 
   return (
     <div className="order-page-wrapper">
