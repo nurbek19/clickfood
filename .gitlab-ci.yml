@@ -1,0 +1,123 @@
+default:
+  image: docker:27
+  services:
+    - name: docker:27-dind
+      alias: docker
+
+stages:
+  - staging-build
+  - staging-deploy
+  - production-build
+  - production-deploy
+
+variables:
+  ENTRYPOINTS: devops/entrypoints
+  ANSIBLE: devops/ansible
+  DOCKER_TLS_CERTDIR: ""
+
+.server_auth: &server_auth
+  - apk add --no-cache openssh-client
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - eval $(ssh-agent -s)
+  - echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/access_key
+  - chmod 700 ~/.ssh/access_key
+  - echo "$SSH_PASSPHRASE" | setsid ssh-add ~/.ssh/access_key
+
+.after_work_message: &after_work_message
+  - |
+    if [ "$CI_JOB_STATUS" == "success" ]; then
+      sh $ENTRYPOINTS/messaging.sh "Frontend $STAGE_MSG ended successfully at:"
+    elif [ "$CI_JOB_STATUS" == "canceled" ]; then
+      sh $ENTRYPOINTS/messaging.sh "Frontend $STAGE_MSG was canceled at:"
+    else
+      sh $ENTRYPOINTS/messaging.sh "Frontend $STAGE_MSG failed at:"
+    fi
+
+.before_work_message: &before_work_message
+  - apk add --no-cache curl tzdata
+  - sh $ENTRYPOINTS/messaging.sh "Frontend $STAGE_MSG started at:"
+
+staging-build:
+  stage: staging-build
+  before_script:
+    - apk add --no-cache bash zip
+    - export STAGE_MSG="staging-build"
+    - *before_work_message
+    - chmod +x $ENTRYPOINTS/env/staging_env.sh
+  script:
+    - sh $ENTRYPOINTS/env/staging_env.sh
+    - docker-compose -f devops/services/cd.yaml up --build
+    - ls -la dist
+    - cd dist && zip -r ../dist.zip .
+  artifacts:
+    paths:
+      - dist.zip
+    expire_in: 2 hour
+  after_script:
+    - export STAGE_MSG="staging-build"
+    - *after_work_message
+  when: manual
+  except:
+    - master
+
+staging-deploy:
+  stage: staging-deploy
+  dependencies:
+    - staging-build
+  before_script:
+    - apk add --no-cache bash ansible
+    - export STAGE_MSG="staging deploy"
+    - *before_work_message
+    - *server_auth
+  script:
+    - sh $ENTRYPOINTS/deploy.sh devops/ansible/playbooks/staging.yaml devops/ansible/inventory/hosts.yaml
+  after_script:
+    - export STAGE_MSG="staging deploy"
+    - *after_work_message
+  when: manual
+  except:
+    - master
+
+production-build:
+  stage: production-build
+  before_script:
+    - apk add --no-cache bash zip
+    - export STAGE_MSG="production-build"
+    - *before_work_message
+    - chmod +x $ENTRYPOINTS/env/production_env.sh
+  script:
+    - sh $ENTRYPOINTS/env/production_env.sh
+    - docker-compose -f devops/services/cd.yaml up --build
+    - ls -la dist
+    - cd dist && zip -r ../dist.zip .
+  artifacts:
+    paths:
+      - dist.zip
+    expire_in: 2 hour
+  after_script:
+    - export STAGE_MSG="production-build"
+    - *after_work_message
+  when: manual
+  only:
+    - master
+
+production-deploy:
+  stage: production-deploy
+  dependencies:
+    - production-build
+  before_script:
+    - apk add --no-cache bash ansible
+    - export STAGE_MSG="production deploy"
+    - *before_work_message
+    - *server_auth
+  script:
+    - sh $ENTRYPOINTS/deploy.sh devops/ansible/playbooks/production.yaml devops/ansible/inventory/hosts.yaml
+  after_script:
+    - export STAGE_MSG="production deploy"
+    - *after_work_message
+  when: manual
+  only:
+    - master

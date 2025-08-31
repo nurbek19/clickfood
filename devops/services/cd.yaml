@@ -1,0 +1,11 @@
+services:
+  frontend:
+    image: node:23.3.0-alpine
+    container_name: clickfood-frontend
+    tty: true
+    working_dir: /opt/services/clickfood-frontend
+    env_file:
+      - ../../.env
+    volumes:
+      - ../..:/opt/services/clickfood-frontend
+    command: sh -c "yarn install --frozen-lockfile && yarn build"

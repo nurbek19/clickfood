@@ -1,0 +1,60 @@
+- name: Deploy production frontend
+  hosts: "clickfood_production"
+  vars:
+    OWNER: clickadmin
+    GROUP: clickadmin
+    CHDIR_MAIN: /var/www/clickfood/clickfood-frontend
+    REMOTE_DIST_NEW: "{{ CHDIR_MAIN }}/dist_new"
+    LOCAL_DIST_ARCHIVE: ../../../dist.zip
+
+  tasks:
+    - name: Copy dist archive from CI runner
+      copy:
+        src: "{{ LOCAL_DIST_ARCHIVE }}"
+        dest: "{{ CHDIR_MAIN }}/dist.zip"
+      become: true
+
+    - name: Ensure dist_new directory exists
+      file:
+        path: "{{ REMOTE_DIST_NEW }}"
+        state: directory
+        owner: "{{ OWNER }}"
+        group: "{{ GROUP }}"
+        mode: "0755"
+      become: true
+
+    - name: Unpack dist archive to dist_new on server
+      unarchive:
+        src: "{{ CHDIR_MAIN }}/dist.zip"
+        dest: "{{ REMOTE_DIST_NEW }}"
+        remote_src: yes
+      become: true
+
+    - name: Remove archive after unpacking
+      file:
+        path: "{{ CHDIR_MAIN }}/dist.zip"
+        state: absent
+      become: true
+
+    - name: Ensure dist_new ownership and permissions
+      file:
+        path: "{{ REMOTE_DIST_NEW }}"
+        owner: "{{ OWNER }}"
+        group: "{{ GROUP }}"
+        mode: "0755"
+        recurse: yes
+      become: true
+
+    - name: Remove old dist
+      file:
+        path: "{{ CHDIR_MAIN }}/dist"
+        state: absent
+      become: true
+
+    - name: Rename dist_new to dist
+      command: mv {{ REMOTE_DIST_NEW }} {{ CHDIR_MAIN }}/dist
+      become: true
+
+    - name: Reload nginx inside container
+      shell: docker restart clickfood-nginx
+      become: true
