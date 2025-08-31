@@ -24,6 +24,8 @@ export const PartnerForm = ({ existingPartner = null }) => {
 
   return (
     <div className="partner-form-container">
+      <h3>Настройки партнера</h3>
+
       <div className="field-wrapper">
         <label htmlFor="name" className="field-label">Название</label>
         <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
