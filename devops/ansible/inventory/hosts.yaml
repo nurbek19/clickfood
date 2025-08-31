@@ -1,0 +1,12 @@
+all:
+  hosts:
+    clickfood_staging:
+      ansible_port: 1995
+      ansible_host: 188.166.166.185
+      ansible_user: clickadmin
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    clickfood_production:
+      ansible_port: 1995
+      ansible_host: 167.71.33.110
+      ansible_user: clickadmin
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no"

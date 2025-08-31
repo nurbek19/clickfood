@@ -5,7 +5,7 @@ import path from 'node:path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/clickfood/',
+  base: './clickfood/',
   resolve: {
     alias: {
       '@app': path.resolve(__dirname, 'src/app'),
